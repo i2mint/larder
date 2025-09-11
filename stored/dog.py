@@ -2,15 +2,11 @@
 DOG (Data Operation Graph) implementation copied into stored.dog
 """
 
-import pytest
 from typing import Callable, Any, Dict, List, Tuple, get_args
-from functools import partial
-from collections.abc import MutableMapping
-from dol import Pipe
-
-from au.base import async_compute, FileSystemStore, SerializationFormat
 import os
 import tempfile
+
+from au.base import async_compute, FileSystemStore, SerializationFormat
 
 
 class _DOG:
