@@ -1,0 +1,7 @@
+.. toctree::
+   :maxdepth: 2
+   :caption: Contents:
+
+   module_docs/larder
+   module_docs/larder/crude
+   module_docs/larder/dog
