@@ -1,5 +1,5 @@
 """
-Test prepare_for_crude_dispatch for stored.crude
+Test prepare_for_crude_dispatch for larder.crude
 """
 
 from larder.crude import prepare_for_crude_dispatch

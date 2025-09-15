@@ -25,12 +25,12 @@ def test_param_to_mall_map(foo, bar):
         param_to_mall_map={"x": "x_store"},
         crudifier=partial(
             prepare_for_crude_dispatch,
-            mall={"x_store": {"stored_two": 2, "stored_four": 4}},
+            mall={"x_store": {"larder_two": 2, "larder_four": 4}},
         ),
     )
     foo, bar = map(general_crudifier, [foo, bar])
-    assert foo("stored_two", 10) == 12
-    assert bar(4, "stored_four") == 16
+    assert foo("larder_two", 10) == 12
+    assert bar(4, "larder_four") == 16
 
 
 def test_func_output_store(foo, bar):

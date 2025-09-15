@@ -1,5 +1,5 @@
 """
-stored: Connect functions to stores - fetch inputs & persist outputs
+larder: Connect functions to stores - fetch inputs & persist outputs
 """
 
 from larder.crude import store_on_output

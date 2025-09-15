@@ -1,5 +1,5 @@
 """
-DOG (Data Operation Graph) implementation copied into stored.dog
+DOG (Data Operation Graph)
 """
 
 from typing import Callable, Any, Dict, List, Tuple, get_args
