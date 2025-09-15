@@ -1,7 +1,7 @@
 import pytest
 import asyncio
 
-from stored.wip.input_wire import input_wiring
+from larder.wip.input_wire import input_wiring
 
 
 class MockStore:

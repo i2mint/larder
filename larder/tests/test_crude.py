@@ -2,7 +2,7 @@
 Test prepare_for_crude_dispatch for stored.crude
 """
 
-from stored.crude import prepare_for_crude_dispatch
+from larder.crude import prepare_for_crude_dispatch
 from functools import partial
 
 

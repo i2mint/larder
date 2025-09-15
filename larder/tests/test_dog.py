@@ -16,7 +16,7 @@ from collections.abc import MutableMapping
 
 from dol import Pipe
 
-from stored.dog import DOG, ADOG
+from larder.dog import DOG, ADOG
 from au.base import ComputationStatus
 import time
 

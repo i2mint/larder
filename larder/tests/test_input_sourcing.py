@@ -9,7 +9,7 @@ import pytest
 import asyncio
 from functools import partial
 
-from stored.wip.input_sourcing import (
+from larder.wip.input_sourcing import (
     resolve_data,
     _get_function_from_store,
     source_variables,

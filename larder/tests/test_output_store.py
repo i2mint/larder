@@ -1,6 +1,6 @@
 import pytest
 
-from stored.crude import store_on_output
+from larder.crude import store_on_output
 
 
 class SimpleDictStore(dict):

@@ -1,4 +1,4 @@
-# stored — connect functions to stores
+# larder — connect functions to stores
 
 Connect functions to stores - fetch inputs & persist outputs.
 
@@ -18,7 +18,7 @@ Why this exists
 ---------------
 Many UIs and service layers cannot pass rich Python objects (functions,
 in-memory tables, model objects) directly. Instead they pass lightweight keys
-that reference objects stored in a session or filesystem. `stored` gives you
+that reference objects stored in a session or filesystem. `larder` gives you
 the plumbing to map those keys back into real Python values before calling
 your functions, and to persist outputs back into stores under predictable
 keys.
@@ -48,12 +48,12 @@ Key concepts and patterns
 Short working examples (taken from the tests)
 --------------------------------------------
 These examples are simplified extracts from the package tests so you can
-quickly try the patterns that are covered by tests in `stored/tests`.
+quickly try the patterns that are covered by tests in `larder/tests`.
 
 1) Persisting a function's output (sync)
 
 ```python
-from stored import store_on_output
+from larder import store_on_output
 
 output_store = {}
 
@@ -73,7 +73,7 @@ audit logs.
 (2) DOG example (minimal)
 
 ```python
-from stored import DOG
+from larder import DOG
 
 data_stores = {
 		'segments': {'type': list, 'store': {'s1': ['a','b']}},
@@ -133,7 +133,7 @@ crude.DillFiles(root)
 - File-backed store that pickles objects. Useful for simple persistence of
 	Python objects without setting up a database.
 
-stored.wip.input_sourcing.source_variables(**config)
+larder.wip.input_sourcing.source_variables(**config)
 - Use: decorate functions to resolve specific parameters from stores.
 - Important args in `config` for each parameter name:
 	- resolver: callable(value, store_key, mall) | async callable
@@ -144,19 +144,19 @@ stored.wip.input_sourcing.source_variables(**config)
 - The decorator also accepts `mall` (callable or mapping) and `egress`
 	(post-processing of the function result).
 
-stored.wip.input_sourcing.resolve_data(data, store_key, mall)
+larder.wip.input_sourcing.resolve_data(data, store_key, mall)
 - Simple helper that returns mall[store_key][data] when `data` is a key.
 
-stored.wip.input_sourcing._get_function_from_store(key, store_key, mall)
+larder.wip.input_sourcing._get_function_from_store(key, store_key, mall)
 - Async helper that returns a function stored under `store_key`; supports
 	parameterized function descriptors like `{'name': {'multiplier': 2}}`.
 
-stored.wip.input_wire.input_wiring(func, global_param_to_store, mall=None)
+larder.wip.input_wire.input_wiring(func, global_param_to_store, mall=None)
 - Use: wrap a function so named parameters are fetched from mall stores using
 	a mapping `global_param_to_store` (param -> store_name). The mall object is
 	expected to expose callable attributes returning mapping-like stores.
 
-stored.dog.DOG(operation_signatures, data_stores, operation_implementations, sourced_argnames=None)
+larder.dog.DOG(operation_signatures, data_stores, operation_implementations, sourced_argnames=None)
 - Use: small orchestration helper that determines where operation outputs
 	should be stored based on declared return types and stores mapping.
 - ADOG: async variant that wraps operations with an async compute wrapper and
@@ -167,7 +167,7 @@ How to run the tests that back these examples
 Run the package tests (they contain the full examples):
 
 ```bash
-cd /path/to/proj/i/stored/stored
+cd /path/to/proj/i/larder/larder
 pytest -q
 ```
 
@@ -184,7 +184,7 @@ examples (FastAPI, background workers, or real file-backed stores), say which
 example and I will add it.
 
 '''
-pip install stored
+pip install larder
 '''
 
 
@@ -204,7 +204,7 @@ functionality, all the way to our current `crude.py` coverage.
 **Resolve arguments from a mall using `source_variables`**
 
 ```python
-from stored.wip.input_sourcing import source_variables, mock_mall
+from larder.wip.input_sourcing import source_variables, mock_mall
 
 @source_variables(
 		segments={'resolver': lambda v, sk, mall: mall[sk].get(v), 'store_key': 'segments'},
@@ -223,7 +223,7 @@ runs. Use cases include FastAPI endpoints, CLI wrappers, and simple webhooks.
 **Simple input wiring (dependency-injector style)**
 
 ```python
-from stored.wip.input_wire import input_wiring
+from larder.wip.input_wire import input_wiring
 
 class MockMall:
 		store1 = lambda: {'x': 10}
