@@ -2,7 +2,8 @@
 DOG (Data Operation Graph)
 """
 
-from typing import Callable, Any, Dict, List, Tuple, get_args
+from typing import Any, Dict, List, Tuple, get_args
+from collections.abc import Callable
 import os
 import tempfile
 
@@ -12,9 +13,9 @@ from au.base import async_compute, FileSystemStore, SerializationFormat
 class _DOG:
     def __init__(
         self,
-        operation_signatures: Dict[str, Any],
-        data_stores: Dict[str, Any],
-        operation_implementations: Dict[str, Any],
+        operation_signatures: dict[str, Any],
+        data_stores: dict[str, Any],
+        operation_implementations: dict[str, Any],
         sourced_argnames: Any = None,
     ):
         self.operation_signatures = operation_signatures
@@ -82,7 +83,7 @@ class _DOG:
 
 
 class DOG(_DOG):
-    def call(self, func_impl: Callable, *args, **kwargs) -> Tuple[str, str]:
+    def call(self, func_impl: Callable, *args, **kwargs) -> tuple[str, str]:
         args, kwargs = self._source_args(func_impl, args, kwargs)
         output_store_name, _ = self._get_output_store_name_and_type(func_impl)
         if not output_store_name or output_store_name not in self.data_stores:
@@ -98,15 +99,15 @@ class DOG(_DOG):
 class ADOG(_DOG):
     def __init__(
         self,
-        operation_signatures: Dict[str, Any],
-        data_stores: Dict[str, Any],
-        operation_implementations: Dict[str, Any],
+        operation_signatures: dict[str, Any],
+        data_stores: dict[str, Any],
+        operation_implementations: dict[str, Any],
         *,
         base_path: str = None,
         ttl_seconds: int = 3600,
         serialization: SerializationFormat = SerializationFormat.JSON,
-        middleware: List[Any] = None,
-        sourced_argnames: Dict[str, str] = None,
+        middleware: list[Any] = None,
+        sourced_argnames: dict[str, str] = None,
     ):
         super().__init__(
             operation_signatures,
@@ -143,7 +144,7 @@ class ADOG(_DOG):
                     serialization=self._adog_serialization,
                 )
 
-    def call(self, func_impl: Callable, *args, **kwargs) -> Tuple[str, str]:
+    def call(self, func_impl: Callable, *args, **kwargs) -> tuple[str, str]:
         args, kwargs = self._source_args(func_impl, args, kwargs)
         output_store_name, _ = self._get_output_store_name_and_type(func_impl)
         if not output_store_name or output_store_name not in self.data_stores:

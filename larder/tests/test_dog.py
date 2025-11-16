@@ -1,16 +1,14 @@
 import pytest
 from typing import (
-    Callable,
     Any,
     Dict,
     List,
     Tuple,
     get_args,
-    Sequence,
     NewType,
-    Iterable,
     Literal,
 )
+from collections.abc import Callable, Sequence, Iterable
 from functools import partial
 from collections.abc import MutableMapping
 
@@ -22,7 +20,7 @@ import time
 
 Segment = NewType("Segment", str)
 Embedding = NewType("Embedding", Sequence[float])
-PlanarVector = Tuple[float, float]
+PlanarVector = tuple[float, float]
 ClusterIndex = NewType("ClusterIndex", int)
 
 Segments = Iterable[Segment]

@@ -8,7 +8,8 @@ inputs from various stores and data sources.
 
 import asyncio
 from functools import partial, wraps
-from typing import Dict, Any, Callable
+from typing import Dict, Any
+from collections.abc import Callable
 
 
 def resolve_data(data, store_key, mall):
