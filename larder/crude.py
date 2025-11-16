@@ -66,9 +66,7 @@ def auto_key_from_arguments(*args, **kwargs) -> KT:
 auto_key = auto_key_from_arguments
 
 
-def auto_key_from_time(
-    *args, __format: Number | str | Callable = 1e6, **kwargs
-) -> KT:
+def auto_key_from_time(*args, __format: Number | str | Callable = 1e6, **kwargs) -> KT:
     utc_seconds = time.time()
     if isinstance(__format, Number):
         return f"{int(utc_seconds * __format):_}"
