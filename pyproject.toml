@@ -11,8 +11,28 @@ description = "Connect functions to stores - fetch inputs & persist outputs"
 readme = "README.md"
 requires-python = ">=3.10"
 license = "MIT"
-keywords = []
+keywords = [
+    "storage",
+    "crud",
+    "dispatch",
+    "dependency-injection",
+    "persistence",
+    "stores",
+    "functions",
+]
 authors = []
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
 dependencies = [
     "au",
     "dol",
@@ -21,6 +41,10 @@ dependencies = [
 
 [project.urls]
 Homepage = "https://github.com/i2mint/larder"
+Documentation = "https://i2mint.github.io/larder/"
+Repository = "https://github.com/i2mint/larder"
+Issues = "https://github.com/i2mint/larder/issues"
+Changelog = "https://github.com/i2mint/larder/blob/master/CHANGELOG.md"
 
 [project.optional-dependencies]
 testing = [
