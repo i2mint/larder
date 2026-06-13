@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>larder.crude &mdash; larder 0.0.6 documentation</title>
+  <title>larder.crude &mdash; larder 0.0.7 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=1fd71caa"></script>
+      <script src="../../_static/documentation_options.js?v=bbaf98b3"></script>
       <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -163,6 +163,9 @@
 <span class="sd">    (default ``1e6`` → microseconds as a grouped integer string), a ``strftime``</span>
 <span class="sd">    format string formats the time, and a callable is passed the UTC seconds.</span>
 <span class="sd">    Ignores ``*args``/``**kwargs`` so it can be dropped in as an auto-namer.</span>
+
+<span class="sd">    &gt;&gt;&gt; auto_key_from_time(__format=lambda utc_seconds: &#39;fixed-key&#39;)</span>
+<span class="sd">    &#39;fixed-key&#39;</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">utc_seconds</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">__format</span><span class="p">,</span> <span class="n">Number</span><span class="p">):</span>
@@ -566,6 +569,14 @@
 <span class="sd">    ``action``, returns the store. ``action=&#39;list&#39;`` returns the keys</span>
 <span class="sd">    containing ``key`` (a substring filter); ``action=&#39;get&#39;`` returns</span>
 <span class="sd">    ``store[key]``.</span>
+
+<span class="sd">    &gt;&gt;&gt; mall = {&#39;s1&#39;: {&#39;apple&#39;: 1, &#39;apricot&#39;: 2, &#39;banana&#39;: 3}}</span>
+<span class="sd">    &gt;&gt;&gt; sorted(simple_mall_dispatch_core_func(None, None, None, mall))</span>
+<span class="sd">    [&#39;s1&#39;]</span>
+<span class="sd">    &gt;&gt;&gt; simple_mall_dispatch_core_func(&#39;ap&#39;, &#39;list&#39;, &#39;s1&#39;, mall)</span>
+<span class="sd">    [&#39;apple&#39;, &#39;apricot&#39;]</span>
+<span class="sd">    &gt;&gt;&gt; simple_mall_dispatch_core_func(&#39;banana&#39;, &#39;get&#39;, &#39;s1&#39;, mall)</span>
+<span class="sd">    3</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">store_name</span><span class="p">:</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">mall</span><span class="p">)</span>

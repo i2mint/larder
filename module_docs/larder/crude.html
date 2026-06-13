@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>larder.crude &mdash; larder 0.0.6 documentation</title>
+  <title>larder.crude &mdash; larder 0.0.7 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -15,7 +15,7 @@
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=1fd71caa"></script>
+      <script src="../../_static/documentation_options.js?v=bbaf98b3"></script>
       <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -167,6 +167,10 @@ persisted in some fashion).</p>
 (default <code class="docutils literal notranslate"><span class="pre">1e6</span></code> → microseconds as a grouped integer string), a <code class="docutils literal notranslate"><span class="pre">strftime</span></code>
 format string formats the time, and a callable is passed the UTC seconds.
 Ignores <code class="docutils literal notranslate"><span class="pre">*args</span></code>/<code class="docutils literal notranslate"><span class="pre">**kwargs</span></code> so it can be dropped in as an auto-namer.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">auto_key_from_time</span><span class="p">(</span><span class="n">__format</span><span class="o">=</span><span class="k">lambda</span> <span class="n">utc_seconds</span><span class="p">:</span> <span class="s1">&#39;fixed-key&#39;</span><span class="p">)</span>
+<span class="go">&#39;fixed-key&#39;</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="py function">
@@ -211,6 +215,15 @@ each store persists under <code class="docutils literal notranslate"><span class
 <code class="docutils literal notranslate"><span class="pre">action</span></code>, returns the store. <code class="docutils literal notranslate"><span class="pre">action='list'</span></code> returns the keys
 containing <code class="docutils literal notranslate"><span class="pre">key</span></code> (a substring filter); <code class="docutils literal notranslate"><span class="pre">action='get'</span></code> returns
 <code class="docutils literal notranslate"><span class="pre">store[key]</span></code>.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mall</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;s1&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;apple&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;apricot&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;banana&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">}}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">sorted</span><span class="p">(</span><span class="n">simple_mall_dispatch_core_func</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">mall</span><span class="p">))</span>
+<span class="go">[&#39;s1&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">simple_mall_dispatch_core_func</span><span class="p">(</span><span class="s1">&#39;ap&#39;</span><span class="p">,</span> <span class="s1">&#39;list&#39;</span><span class="p">,</span> <span class="s1">&#39;s1&#39;</span><span class="p">,</span> <span class="n">mall</span><span class="p">)</span>
+<span class="go">[&#39;apple&#39;, &#39;apricot&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">simple_mall_dispatch_core_func</span><span class="p">(</span><span class="s1">&#39;banana&#39;</span><span class="p">,</span> <span class="s1">&#39;get&#39;</span><span class="p">,</span> <span class="s1">&#39;s1&#39;</span><span class="p">,</span> <span class="n">mall</span><span class="p">)</span>
+<span class="go">3</span>
+</pre></div>
+</div>
 </dd></dl>
 
 </section>
