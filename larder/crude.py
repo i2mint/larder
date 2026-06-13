@@ -80,6 +80,9 @@ def auto_key_from_time(*args, __format: Number | str | Callable = 1e6, **kwargs)
     (default ``1e6`` → microseconds as a grouped integer string), a ``strftime``
     format string formats the time, and a callable is passed the UTC seconds.
     Ignores ``*args``/``**kwargs`` so it can be dropped in as an auto-namer.
+
+    >>> auto_key_from_time(__format=lambda utc_seconds: 'fixed-key')
+    'fixed-key'
     """
     utc_seconds = time.time()
     if isinstance(__format, Number):
@@ -477,6 +480,14 @@ def simple_mall_dispatch_core_func(
     ``action``, returns the store. ``action='list'`` returns the keys
     containing ``key`` (a substring filter); ``action='get'`` returns
     ``store[key]``.
+
+    >>> mall = {'s1': {'apple': 1, 'apricot': 2, 'banana': 3}}
+    >>> sorted(simple_mall_dispatch_core_func(None, None, None, mall))
+    ['s1']
+    >>> simple_mall_dispatch_core_func('ap', 'list', 's1', mall)
+    ['apple', 'apricot']
+    >>> simple_mall_dispatch_core_func('banana', 'get', 's1', mall)
+    3
     """
     if not store_name:
         return list(mall)
