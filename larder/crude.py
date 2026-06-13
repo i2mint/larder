@@ -7,7 +7,7 @@ The method's trick is to allow the complex object's that we "crudified" to be co
 via a string key that references the complex object, via a "store" which maps
 these string keys to the actual physical object.
 This store could be a python dictionary (so in RAM) or any persisting storage system
-(files, DB) that is given a `typing.Mapping` interface
+(files, DB) that is given a ``typing.Mapping`` interface
 (see https://i2mint.github.io/dol/ or https://i2mint.github.io/py2store for
 tools to do so).
 
