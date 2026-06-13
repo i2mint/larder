@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>larder.crude &mdash; larder 0.0.5 documentation</title>
+  <title>larder.crude &mdash; larder 0.0.6 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=282f96c0"></script>
+      <script src="../../_static/documentation_options.js?v=1fd71caa"></script>
       <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -135,16 +135,35 @@
 <span class="n">Mall</span> <span class="o">=</span> <span class="n">Mapping</span><span class="p">[</span><span class="n">StoreName</span><span class="p">,</span> <span class="n">StoreType</span><span class="p">]</span>
 
 
+<div class="viewcode-block" id="auto_key_from_arguments">
+<a class="viewcode-back" href="../../module_docs/larder/crude.html#larder.crude.auto_key_from_arguments">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">auto_key_from_arguments</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">KT</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Build a string key from a call&#39;s positional and keyword arguments.</span>
+
+<span class="sd">    &gt;&gt;&gt; auto_key_from_arguments(1, 2, a=3)</span>
+<span class="sd">    &#39;1,2,a=3&#39;</span>
+<span class="sd">    &gt;&gt;&gt; auto_key_from_arguments(a=1, b=2)</span>
+<span class="sd">    &#39;a=1,b=2&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">args_str</span> <span class="o">=</span> <span class="s2">&quot;,&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">args</span><span class="p">))</span>
     <span class="n">kwargs_str</span> <span class="o">=</span> <span class="s2">&quot;,&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">kv</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">kv</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">=</span><span class="si">{</span><span class="n">kv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">()))</span>
-    <span class="k">return</span> <span class="s2">&quot;,&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="p">[</span><span class="n">args_str</span><span class="p">,</span> <span class="n">kwargs_str</span><span class="p">]))</span>
+    <span class="k">return</span> <span class="s2">&quot;,&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="p">[</span><span class="n">args_str</span><span class="p">,</span> <span class="n">kwargs_str</span><span class="p">]))</span></div>
+
 
 
 <span class="n">auto_key</span> <span class="o">=</span> <span class="n">auto_key_from_arguments</span>
 
 
+<div class="viewcode-block" id="auto_key_from_time">
+<a class="viewcode-back" href="../../module_docs/larder/crude.html#larder.crude.auto_key_from_time">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">auto_key_from_time</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">__format</span><span class="p">:</span> <span class="n">Number</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Callable</span> <span class="o">=</span> <span class="mf">1e6</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">KT</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Make a string key from the current UTC time.</span>
+
+<span class="sd">    ``__format`` controls the rendering: a number multiplies the UTC seconds</span>
+<span class="sd">    (default ``1e6`` → microseconds as a grouped integer string), a ``strftime``</span>
+<span class="sd">    format string formats the time, and a callable is passed the UTC seconds.</span>
+<span class="sd">    Ignores ``*args``/``**kwargs`` so it can be dropped in as an auto-namer.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">utc_seconds</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">__format</span><span class="p">,</span> <span class="n">Number</span><span class="p">):</span>
         <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">utc_seconds</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">__format</span><span class="p">)</span><span class="si">:</span><span class="s2">_</span><span class="si">}</span><span class="s2">&quot;</span>
@@ -152,7 +171,8 @@
         <span class="k">return</span> <span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="n">__format</span><span class="p">,</span> <span class="n">time</span><span class="o">.</span><span class="n">gmtime</span><span class="p">(</span><span class="n">utc_seconds</span><span class="p">))</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">assert</span> <span class="nb">callable</span><span class="p">(</span><span class="n">__format</span><span class="p">)</span>
-        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">__format</span><span class="p">(</span><span class="n">utc_seconds</span><span class="p">))</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">__format</span><span class="p">(</span><span class="n">utc_seconds</span><span class="p">))</span></div>
+
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_validate_function_keyword_only_params</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">allowed_params</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">obj_name</span><span class="p">):</span>
@@ -291,6 +311,16 @@
     <span class="n">auto_namer</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">output_trans</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Decorate a function so its return value is (optionally) persisted to a store.</span>
+
+<span class="sd">    The wrapped function gains a ``save_name`` keyword (name configurable via</span>
+<span class="sd">    ``save_name_param``): when given, the output is written to ``store`` under</span>
+<span class="sd">    that key. ``auto_namer`` can derive the key automatically from the call&#39;s</span>
+<span class="sd">    ``output``/``arguments``; ``output_trans`` transforms what gets stored;</span>
+<span class="sd">    ``store_multi_values`` appends rather than overwrites. A runnable example</span>
+<span class="sd">    is in the README (&quot;store_on_output&quot;). Used as ``@store_on_output(...)`` or</span>
+<span class="sd">    ``@store_on_output`` directly.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">_validate_function_keyword_only_params</span><span class="p">(</span>
         <span class="n">auto_namer</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;output&quot;</span><span class="p">,</span> <span class="s2">&quot;arguments&quot;</span><span class="p">],</span> <span class="n">obj_name</span><span class="o">=</span><span class="s2">&quot;auto_namer&quot;</span>
     <span class="p">)</span>
@@ -404,6 +434,16 @@
     <span class="n">output_trans</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">verbose</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
 <span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Adapt a function for &quot;crude&quot; dispatch: source string-key arguments from a mall.</span>
+
+<span class="sd">    Each parameter named in ``param_to_mall_map`` is resolved from the matching</span>
+<span class="sd">    store of ``mall`` before the call (so a caller can pass a string key instead</span>
+<span class="sd">    of the real object — handy for GUIs, CLIs, and HTTP endpoints). With</span>
+<span class="sd">    ``output_store`` set, the return value is also persisted (the</span>
+<span class="sd">    ``store_on_output`` behaviour). The returned function keeps a usable</span>
+<span class="sd">    signature. See the README (&quot;prepare_for_crude_dispatch&quot;) for a runnable</span>
+<span class="sd">    example.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">ingress</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">store_for_param</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">if</span> <span class="n">param_to_mall_map</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -492,17 +532,41 @@
         <span class="k">return</span> <span class="n">store_for_param</span>
 
 
+<div class="viewcode-block" id="keys_to_values_if_non_mapping_iterable">
+<a class="viewcode-back" href="../../module_docs/larder/crude.html#larder.crude.keys_to_values_if_non_mapping_iterable">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">keys_to_values_if_non_mapping_iterable</span><span class="p">(</span><span class="n">d</span><span class="p">:</span> <span class="n">Iterable</span> <span class="o">|</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Normalize ``d`` to a mapping: a non-mapping iterable becomes ``{x: x}``.</span>
+
+<span class="sd">    A mapping (or ``None``) is returned as a dict unchanged; an iterable of</span>
+<span class="sd">    items is turned into an identity mapping.</span>
+
+<span class="sd">    &gt;&gt;&gt; keys_to_values_if_non_mapping_iterable([&#39;a&#39;, &#39;b&#39;])</span>
+<span class="sd">    {&#39;a&#39;: &#39;a&#39;, &#39;b&#39;: &#39;b&#39;}</span>
+<span class="sd">    &gt;&gt;&gt; keys_to_values_if_non_mapping_iterable(None)</span>
+<span class="sd">    {}</span>
+<span class="sd">    &gt;&gt;&gt; keys_to_values_if_non_mapping_iterable({&#39;a&#39;: 1})</span>
+<span class="sd">    {&#39;a&#39;: 1}</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">d</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="nb">dict</span><span class="p">()</span>
     <span class="k">elif</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">):</span>
         <span class="n">d</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">k</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">d</span><span class="p">}</span>
-    <span class="k">return</span> <span class="n">d</span>
+    <span class="k">return</span> <span class="n">d</span></div>
 
 
+
+<div class="viewcode-block" id="simple_mall_dispatch_core_func">
+<a class="viewcode-back" href="../../module_docs/larder/crude.html#larder.crude.simple_mall_dispatch_core_func">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">simple_mall_dispatch_core_func</span><span class="p">(</span>
     <span class="n">key</span><span class="p">:</span> <span class="n">KT</span><span class="p">,</span> <span class="n">action</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">store_name</span><span class="p">:</span> <span class="n">StoreName</span><span class="p">,</span> <span class="n">mall</span><span class="p">:</span> <span class="n">Mall</span>
 <span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Dispatch a CRUD-ish read against a mall: list stores, list/get keys.</span>
+
+<span class="sd">    With no ``store_name``, returns the mall&#39;s store names. With a store but no</span>
+<span class="sd">    ``action``, returns the store. ``action=&#39;list&#39;`` returns the keys</span>
+<span class="sd">    containing ``key`` (a substring filter); ``action=&#39;get&#39;`` returns</span>
+<span class="sd">    ``store[key]``.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">store_name</span><span class="p">:</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">mall</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
@@ -514,7 +578,8 @@
         <span class="n">key</span> <span class="o">=</span> <span class="n">key</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">k</span><span class="p">:</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">k</span><span class="p">,</span> <span class="n">store</span><span class="p">))</span>
     <span class="k">elif</span> <span class="n">action</span> <span class="o">==</span> <span class="s2">&quot;get&quot;</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">store</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">store</span><span class="p">[</span><span class="n">key</span><span class="p">]</span></div>
+
 
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Iterable</span>
@@ -529,7 +594,15 @@
 <div class="viewcode-block" id="Crudifier">
 <a class="viewcode-back" href="../../module_docs/larder/crude.html#larder.crude.Crudifier">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Crudifier</span><span class="p">(</span><span class="n">_Crudifier</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A reusable, configured ``prepare_for_crude_dispatch`` as a dataclass.</span>
+
+<span class="sd">    Holds the crudification options (``param_to_mall_map``, ``output_store``,</span>
+<span class="sd">    …) as fields, so one configured instance can crudify many functions:</span>
+<span class="sd">    ``crudify = Crudifier(mall=mall, param_to_mall_map=...); crudify(func)``.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Crudify ``func`` using this instance&#39;s stored options.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">prepare_for_crude_dispatch</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="o">**</span><span class="nb">vars</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span></div>
 
 
@@ -556,9 +629,18 @@
         <span class="p">)</span>
 
 
+<div class="viewcode-block" id="crudify_based_on_names">
+<a class="viewcode-back" href="../../module_docs/larder/crude.html#larder.crude.crudify_based_on_names">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">crudify_based_on_names</span><span class="p">(</span>
     <span class="n">func</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">param_to_mall_map</span><span class="o">=</span><span class="p">(),</span> <span class="n">output_store</span><span class="o">=</span><span class="p">(),</span> <span class="n">crudifier</span><span class="o">=</span><span class="n">Crudifier</span>
 <span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Crudify ``func`` by matching its parameter names against name-keyed maps.</span>
+
+<span class="sd">    Looks each parameter up in ``param_to_mall_map`` (and the output in</span>
+<span class="sd">    ``output_store``) by the function object, its name, ``name.arg``, or the</span>
+<span class="sd">    bare arg name — so a single name-indexed config can crudify many functions.</span>
+<span class="sd">    Returns ``func`` unchanged when nothing matches.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">param_to_mall_map</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">param_to_mall_map</span><span class="p">)</span>
     <span class="n">output_store</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">output_store</span><span class="p">)</span>
     <span class="n">func_name</span> <span class="o">=</span> <span class="n">name_of_obj</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
@@ -577,7 +659,8 @@
             <span class="n">func</span><span class="p">,</span> <span class="n">param_to_mall_map</span><span class="o">=</span><span class="n">param_to_mall_map</span><span class="p">,</span> <span class="n">output_store</span><span class="o">=</span><span class="n">output_store</span>
         <span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">func</span>
+        <span class="k">return</span> <span class="n">func</span></div>
+
 
 
 <span class="k">try</span><span class="p">:</span>
@@ -593,11 +676,20 @@
 <a class="viewcode-back" href="../../module_docs/larder/crude.html#larder.crude.DillFiles">[docs]</a>
 <span class="nd">@wrap_kvs</span><span class="p">(</span><span class="n">data_of_obj</span><span class="o">=</span><span class="n">pickler</span><span class="o">.</span><span class="n">dumps</span><span class="p">,</span> <span class="n">obj_of_data</span><span class="o">=</span><span class="n">pickler</span><span class="o">.</span><span class="n">loads</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">DillFiles</span><span class="p">(</span><span class="n">Files</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A ``dol.Files`` store that serializes values with ``dill`` (pickle++).&quot;&quot;&quot;</span>
+
     <span class="k">pass</span></div>
 
 
 
+<div class="viewcode-block" id="mk_mall_of_dill_stores">
+<a class="viewcode-back" href="../../module_docs/larder/crude.html#larder.crude.mk_mall_of_dill_stores">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">mk_mall_of_dill_stores</span><span class="p">(</span><span class="n">store_names</span><span class="o">=</span><span class="n">Iterable</span><span class="p">[</span><span class="n">StoreName</span><span class="p">],</span> <span class="n">rootdir</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Make a mall (dict of stores) of dill-backed file stores, one per name.</span>
+
+<span class="sd">    ``store_names`` may be an iterable of names or a space-separated string;</span>
+<span class="sd">    each store persists under ``rootdir/&lt;name&gt;`` (a temp dir by default).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">rootdir</span> <span class="o">=</span> <span class="n">rootdir</span> <span class="ow">or</span> <span class="n">mk_tmp_dol_dir</span><span class="p">(</span><span class="s2">&quot;crude&quot;</span><span class="p">)</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">store_names</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
         <span class="n">store_names</span> <span class="o">=</span> <span class="n">store_names</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
@@ -608,7 +700,8 @@
             <span class="n">ensure_dir</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>
             <span class="k">yield</span> <span class="n">name</span><span class="p">,</span> <span class="n">root</span>
 
-    <span class="k">return</span> <span class="p">{</span><span class="n">name</span><span class="p">:</span> <span class="n">DillFiles</span><span class="p">(</span><span class="n">root</span><span class="p">)</span> <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">root</span> <span class="ow">in</span> <span class="n">name_and_rootdir</span><span class="p">()}</span>
+    <span class="k">return</span> <span class="p">{</span><span class="n">name</span><span class="p">:</span> <span class="n">DillFiles</span><span class="p">(</span><span class="n">root</span><span class="p">)</span> <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">root</span> <span class="ow">in</span> <span class="n">name_and_rootdir</span><span class="p">()}</span></div>
+
 </pre></div>
 
            </div>

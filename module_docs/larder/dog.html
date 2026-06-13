@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>larder.dog &mdash; larder 0.0.5 documentation</title>
+  <title>larder.dog &mdash; larder 0.0.6 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -15,7 +15,7 @@
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=282f96c0"></script>
+      <script src="../../_static/documentation_options.js?v=1fd71caa"></script>
       <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -50,7 +50,17 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../larder.html">larder</a></li>
 <li class="toctree-l1"><a class="reference internal" href="crude.html">larder.crude</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">larder.dog</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">larder.dog</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#larder.dog.ADOG"><code class="docutils literal notranslate"><span class="pre">ADOG</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#larder.dog.ADOG.call"><code class="docutils literal notranslate"><span class="pre">ADOG.call()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#larder.dog.DOG"><code class="docutils literal notranslate"><span class="pre">DOG</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#larder.dog.DOG.call"><code class="docutils literal notranslate"><span class="pre">DOG.call()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 
         </div>
@@ -80,6 +90,42 @@
   <section id="module-larder.dog">
 <span id="larder-dog"></span><h1>larder.dog<a class="headerlink" href="#module-larder.dog" title="Link to this heading"></a></h1>
 <p>DOG (Data Operation Graph)</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="larder.dog.ADOG">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">larder.dog.</span></span><span class="sig-name descname"><span class="pre">ADOG</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">operation_signatures</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_stores</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">operation_implementations</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ttl_seconds</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">3600</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">serialization</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">SerializationFormat</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">SerializationFormat.JSON</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">middleware</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sourced_argnames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/larder/dog.html#ADOG"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#larder.dog.ADOG" title="Link to this definition"></a></dt>
+<dd><p>Asynchronous DOG: like <a class="reference internal" href="#larder.dog.DOG" title="larder.dog.DOG"><code class="xref py py-class docutils literal notranslate"><span class="pre">DOG</span></code></a> but runs operations via <code class="docutils literal notranslate"><span class="pre">async_compute</span></code>.</p>
+<p>Adds caching/persistence knobs (<code class="docutils literal notranslate"><span class="pre">ttl_seconds</span></code>, <code class="docutils literal notranslate"><span class="pre">serialization</span></code>,
+<code class="docutils literal notranslate"><span class="pre">middleware</span></code>) and a <code class="docutils literal notranslate"><span class="pre">base_path</span></code> for the async result stores; otherwise
+the operation/store/signature model is the same as <a class="reference internal" href="#larder.dog.DOG" title="larder.dog.DOG"><code class="xref py py-class docutils literal notranslate"><span class="pre">DOG</span></code></a>.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="larder.dog.ADOG.call">
+<span class="sig-name descname"><span class="pre">call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func_impl</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/larder/dog.html#ADOG.call"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#larder.dog.ADOG.call" title="Link to this definition"></a></dt>
+<dd><p>Run <code class="docutils literal notranslate"><span class="pre">func_impl</span></code> via its cached async wrapper, persisting the output.</p>
+<p>Returns <code class="docutils literal notranslate"><span class="pre">(store_name,</span> <span class="pre">output_key)</span></code>; raises <code class="docutils literal notranslate"><span class="pre">ValueError</span></code> if no store
+matches the operation’s return type.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="larder.dog.DOG">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">larder.dog.</span></span><span class="sig-name descname"><span class="pre">DOG</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">operation_signatures</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_stores</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">operation_implementations</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sourced_argnames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/larder/dog.html#DOG"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#larder.dog.DOG" title="Link to this definition"></a></dt>
+<dd><p>Synchronous DAG-of-operations executor over typed data stores.</p>
+<p>Given <code class="docutils literal notranslate"><span class="pre">operation_signatures</span></code> (<code class="docutils literal notranslate"><span class="pre">Callable[[In],</span> <span class="pre">Out]</span></code> per operation),
+<code class="docutils literal notranslate"><span class="pre">data_stores</span></code> (each tagged with a <code class="docutils literal notranslate"><span class="pre">type</span></code>), and
+<code class="docutils literal notranslate"><span class="pre">operation_implementations</span></code>, <a class="reference internal" href="#larder.dog.DOG.call" title="larder.dog.DOG.call"><code class="xref py py-meth docutils literal notranslate"><span class="pre">call()</span></code></a> runs an implementation, sources
+any string-key arguments from the stores, and persists the output to the
+store whose <code class="docutils literal notranslate"><span class="pre">type</span></code> matches the operation’s return type. A runnable
+example is in the README (“DOG example”).</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="larder.dog.DOG.call">
+<span class="sig-name descname"><span class="pre">call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func_impl</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/larder/dog.html#DOG.call"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#larder.dog.DOG.call" title="Link to this definition"></a></dt>
+<dd><p>Run <code class="docutils literal notranslate"><span class="pre">func_impl</span></code>, persist its output, and return <code class="docutils literal notranslate"><span class="pre">(store_name,</span> <span class="pre">key)</span></code>.</p>
+<p>Raises <code class="docutils literal notranslate"><span class="pre">ValueError</span></code> if no store matches the operation’s return type.</p>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 
 
