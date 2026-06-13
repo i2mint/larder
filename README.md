@@ -73,18 +73,32 @@ audit logs.
 (2) DOG example (minimal)
 
 ```python
+from typing import Callable, Iterable, NewType
 from larder import DOG
 
+# DOG routes an operation's output to the store whose `type` matches the
+# operation signature's RETURN type, so the store types must be distinct.
+Segment = NewType('Segment', str)
+Embedding = NewType('Embedding', list)
+Segments = Iterable[Segment]
+Embeddings = Iterable[Embedding]
+
 data_stores = {
-		'segments': {'type': list, 'store': {'s1': ['a','b']}},
-		'embeddings': {'type': list, 'store': {}},
+    'segments': {'type': Segments, 'store': {'s1': ['a', 'b']}},
+    'embeddings': {'type': Embeddings, 'store': {}},
+}
+# the signature's return type (Embeddings) selects the output store
+operation_signatures = {'embedder': Callable[[Segments], Embeddings]}
+operation_implementations = {
+    'embedder': {'simple': lambda segs: [[ord(c) for c in s] for s in segs]}
 }
 
-ops = {'embedder': {'simple': lambda segs: [[ord(c) for c in s] for s in segs]}}
-signatures = {'embedder': callable}
-
-dog = DOG(operation_signatures=signatures, data_stores=data_stores, operation_implementations=ops)
-out_store, out_key = dog.call(ops['embedder']['simple'], ['hello'])
+dog = DOG(
+    operation_signatures=operation_signatures,
+    data_stores=data_stores,
+    operation_implementations=operation_implementations,
+)
+out_store, out_key = dog.call(operation_implementations['embedder']['simple'], ['hello'])
 assert out_store == 'embeddings'
 ```
 
@@ -93,7 +107,7 @@ API reference (main interfaces)
 Below are the most important functions and classes you will use. The list is
 concise but mentions the main options; consult the code for advanced knobs.
 
-```py
+```text
 crude.store_on_output(save_name_or_func=None, *, store=None, store_multi_values=False,
 											save_name_param='save_name', add_store_to_func_attr='output_store',
 											empty_name_callback=None, auto_namer=None, output_trans=None)
@@ -225,14 +239,21 @@ runs. Use cases include FastAPI endpoints, CLI wrappers, and simple webhooks.
 ```python
 from larder.wip.input_wire import input_wiring
 
+# stores are zero-arg callables returning their data (dependency-injector style);
+# a bare `lambda: ...` class attribute would become a bound method, so use a class
+class Store:
+    def __init__(self, data): self._data = data
+    def __call__(self): return self._data
+
 class MockMall:
-		store1 = lambda: {'x': 10}
-		store2 = lambda: {'y': 5}
+    def __init__(self):
+        self.store1 = Store({'x': 10})
+        self.store2 = Store({'y': 5})
 
 def add(a, b, c):
-		return a + b * c
+    return a + b * c
 
-wrapped = input_wiring(add, global_param_to_store={'a':'store1', 'b':'store2'}, mall=MockMall())
+wrapped = input_wiring(add, global_param_to_store={'a': 'store1', 'b': 'store2'}, mall=MockMall())
 res = wrapped('x', 'y', 2)  # resolves 'x' -> 10, 'y' -> 5
 assert res == 20
 ```

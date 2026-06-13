@@ -83,7 +83,21 @@ class _DOG:
 
 
 class DOG(_DOG):
+    """Synchronous DAG-of-operations executor over typed data stores.
+
+    Given ``operation_signatures`` (``Callable[[In], Out]`` per operation),
+    ``data_stores`` (each tagged with a ``type``), and
+    ``operation_implementations``, :meth:`call` runs an implementation, sources
+    any string-key arguments from the stores, and persists the output to the
+    store whose ``type`` matches the operation's return type. A runnable
+    example is in the README ("DOG example").
+    """
+
     def call(self, func_impl: Callable, *args, **kwargs) -> tuple[str, str]:
+        """Run ``func_impl``, persist its output, and return ``(store_name, key)``.
+
+        Raises ``ValueError`` if no store matches the operation's return type.
+        """
         args, kwargs = self._source_args(func_impl, args, kwargs)
         output_store_name, _ = self._get_output_store_name_and_type(func_impl)
         if not output_store_name or output_store_name not in self.data_stores:
@@ -97,6 +111,13 @@ class DOG(_DOG):
 
 
 class ADOG(_DOG):
+    """Asynchronous DOG: like :class:`DOG` but runs operations via ``async_compute``.
+
+    Adds caching/persistence knobs (``ttl_seconds``, ``serialization``,
+    ``middleware``) and a ``base_path`` for the async result stores; otherwise
+    the operation/store/signature model is the same as :class:`DOG`.
+    """
+
     def __init__(
         self,
         operation_signatures: dict[str, Any],
@@ -109,6 +130,7 @@ class ADOG(_DOG):
         middleware: list[Any] = None,
         sourced_argnames: dict[str, str] = None,
     ):
+        """Set up the async stores and wrap each operation for cached async compute."""
         super().__init__(
             operation_signatures,
             data_stores,
@@ -145,6 +167,11 @@ class ADOG(_DOG):
                 )
 
     def call(self, func_impl: Callable, *args, **kwargs) -> tuple[str, str]:
+        """Run ``func_impl`` via its cached async wrapper, persisting the output.
+
+        Returns ``(store_name, output_key)``; raises ``ValueError`` if no store
+        matches the operation's return type.
+        """
         args, kwargs = self._source_args(func_impl, args, kwargs)
         output_store_name, _ = self._get_output_store_name_and_type(func_impl)
         if not output_store_name or output_store_name not in self.data_stores:

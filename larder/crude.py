@@ -58,6 +58,13 @@ Mall = Mapping[StoreName, StoreType]
 
 
 def auto_key_from_arguments(*args, **kwargs) -> KT:
+    """Build a string key from a call's positional and keyword arguments.
+
+    >>> auto_key_from_arguments(1, 2, a=3)
+    '1,2,a=3'
+    >>> auto_key_from_arguments(a=1, b=2)
+    'a=1,b=2'
+    """
     args_str = ",".join(map(str, args))
     kwargs_str = ",".join(map(lambda kv: f"{kv[0]}={kv[1]}", kwargs.items()))
     return ",".join(filter(None, [args_str, kwargs_str]))
@@ -67,6 +74,13 @@ auto_key = auto_key_from_arguments
 
 
 def auto_key_from_time(*args, __format: Number | str | Callable = 1e6, **kwargs) -> KT:
+    """Make a string key from the current UTC time.
+
+    ``__format`` controls the rendering: a number multiplies the UTC seconds
+    (default ``1e6`` → microseconds as a grouped integer string), a ``strftime``
+    format string formats the time, and a callable is passed the UTC seconds.
+    Ignores ``*args``/``**kwargs`` so it can be dropped in as an auto-namer.
+    """
     utc_seconds = time.time()
     if isinstance(__format, Number):
         return f"{int(utc_seconds * __format):_}"
@@ -213,6 +227,16 @@ def store_on_output(
     auto_namer: Callable[..., str] = None,
     output_trans: Callable[..., Any] = None,
 ):
+    """Decorate a function so its return value is (optionally) persisted to a store.
+
+    The wrapped function gains a ``save_name`` keyword (name configurable via
+    ``save_name_param``): when given, the output is written to ``store`` under
+    that key. ``auto_namer`` can derive the key automatically from the call's
+    ``output``/``arguments``; ``output_trans`` transforms what gets stored;
+    ``store_multi_values`` appends rather than overwrites. A runnable example
+    is in the README ("store_on_output"). Used as ``@store_on_output(...)`` or
+    ``@store_on_output`` directly.
+    """
     _validate_function_keyword_only_params(
         auto_namer, ["output", "arguments"], obj_name="auto_namer"
     )
@@ -326,6 +350,16 @@ def prepare_for_crude_dispatch(
     output_trans: Callable[..., Any] = None,
     verbose: bool = True,
 ):
+    """Adapt a function for "crude" dispatch: source string-key arguments from a mall.
+
+    Each parameter named in ``param_to_mall_map`` is resolved from the matching
+    store of ``mall`` before the call (so a caller can pass a string key instead
+    of the real object — handy for GUIs, CLIs, and HTTP endpoints). With
+    ``output_store`` set, the return value is also persisted (the
+    ``store_on_output`` behaviour). The returned function keeps a usable
+    signature. See the README ("prepare_for_crude_dispatch") for a runnable
+    example.
+    """
     ingress = None
     store_for_param = {}
     if param_to_mall_map is not None:
@@ -415,6 +449,18 @@ def _mk_store_for_param(sig, param_to_mall_key_dict=None, mall=None, verbose=Tru
 
 
 def keys_to_values_if_non_mapping_iterable(d: Iterable | None) -> dict:
+    """Normalize ``d`` to a mapping: a non-mapping iterable becomes ``{x: x}``.
+
+    A mapping (or ``None``) is returned as a dict unchanged; an iterable of
+    items is turned into an identity mapping.
+
+    >>> keys_to_values_if_non_mapping_iterable(['a', 'b'])
+    {'a': 'a', 'b': 'b'}
+    >>> keys_to_values_if_non_mapping_iterable(None)
+    {}
+    >>> keys_to_values_if_non_mapping_iterable({'a': 1})
+    {'a': 1}
+    """
     if d is None:
         return dict()
     elif not isinstance(d, Mapping) and isinstance(d, Iterable):
@@ -425,6 +471,13 @@ def keys_to_values_if_non_mapping_iterable(d: Iterable | None) -> dict:
 def simple_mall_dispatch_core_func(
     key: KT, action: str, store_name: StoreName, mall: Mall
 ):
+    """Dispatch a CRUD-ish read against a mall: list stores, list/get keys.
+
+    With no ``store_name``, returns the mall's store names. With a store but no
+    ``action``, returns the store. ``action='list'`` returns the keys
+    containing ``key`` (a substring filter); ``action='get'`` returns
+    ``store[key]``.
+    """
     if not store_name:
         return list(mall)
     else:
@@ -449,7 +502,15 @@ _Crudifier = sig_to_dataclass(
 
 
 class Crudifier(_Crudifier):
+    """A reusable, configured ``prepare_for_crude_dispatch`` as a dataclass.
+
+    Holds the crudification options (``param_to_mall_map``, ``output_store``,
+    …) as fields, so one configured instance can crudify many functions:
+    ``crudify = Crudifier(mall=mall, param_to_mall_map=...); crudify(func)``.
+    """
+
     def __call__(self, func):
+        """Crudify ``func`` using this instance's stored options."""
         return prepare_for_crude_dispatch(func, **vars(self))
 
 
@@ -478,6 +539,13 @@ def _keys_to_search(func):
 def crudify_based_on_names(
     func, *, param_to_mall_map=(), output_store=(), crudifier=Crudifier
 ):
+    """Crudify ``func`` by matching its parameter names against name-keyed maps.
+
+    Looks each parameter up in ``param_to_mall_map`` (and the output in
+    ``output_store``) by the function object, its name, ``name.arg``, or the
+    bare arg name — so a single name-indexed config can crudify many functions.
+    Returns ``func`` unchanged when nothing matches.
+    """
     param_to_mall_map = dict(param_to_mall_map)
     output_store = dict(output_store)
     func_name = name_of_obj(func)
@@ -510,10 +578,17 @@ except ImportError:
 
 @wrap_kvs(data_of_obj=pickler.dumps, obj_of_data=pickler.loads)
 class DillFiles(Files):
+    """A ``dol.Files`` store that serializes values with ``dill`` (pickle++)."""
+
     pass
 
 
 def mk_mall_of_dill_stores(store_names=Iterable[StoreName], rootdir=None):
+    """Make a mall (dict of stores) of dill-backed file stores, one per name.
+
+    ``store_names`` may be an iterable of names or a space-separated string;
+    each store persists under ``rootdir/<name>`` (a temp dir by default).
+    """
     rootdir = rootdir or mk_tmp_dol_dir("crude")
     if isinstance(store_names, str):
         store_names = store_names.split()

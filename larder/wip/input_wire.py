@@ -7,6 +7,14 @@ import inspect
 
 
 def input_wiring(func, global_param_to_store, mall=None):
+    """Wrap ``func`` so named parameters are resolved from a mall's stores.
+
+    ``global_param_to_store`` maps parameter names to store names on ``mall``
+    (a dependency-injector-style object whose stores are zero-arg callables
+    returning their data). The wrapped function accepts string keys for those
+    parameters and resolves them before calling ``func``. See the README
+    ("Simple input wiring") for a runnable example.
+    """
     if mall is None:
         raise ValueError("A mall must be provided to access storage systems.")
     sig = inspect.signature(func)

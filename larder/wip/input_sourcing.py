@@ -13,6 +13,17 @@ from collections.abc import Callable
 
 
 def resolve_data(data, store_key, mall):
+    """Resolve ``data`` to ``mall[store_key][data]`` when it's a known string key.
+
+    Anything that isn't a string key present in the store is returned as-is, so
+    callers may pass either a key or the value directly.
+
+    >>> mall = {'segments': {'greeting': 'hello'}}
+    >>> resolve_data('greeting', 'segments', mall)
+    'hello'
+    >>> resolve_data('not-a-key', 'segments', mall)
+    'not-a-key'
+    """
     if isinstance(data, str) and store_key in mall and data in mall[store_key]:
         return mall[store_key][data]
     return data
@@ -37,6 +48,16 @@ async def _get_function_from_store(key, store_key, mall):
 
 
 def source_variables(__var_store_suffix="s", **config):
+    """Decorator that resolves an (async) function's arguments from a mall.
+
+    Each keyword in ``config`` (other than ``mall``/``egress``) names a
+    parameter and how to resolve it (a ``resolver`` callable and ``store_key``),
+    so a caller can pass simple string keys that are turned into real objects
+    before the wrapped coroutine runs. ``mall`` supplies the stores and
+    ``egress`` optionally post-processes the result. See the README
+    ("source_variables") for a runnable example.
+    """
+
     def decorator(func):
         @wraps(func)
         async def wrapper(*args, **kwargs):
