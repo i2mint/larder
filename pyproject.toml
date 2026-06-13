@@ -6,7 +6,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "larder"
-version = "0.0.8"
+version = "0.0.9"
 description = "Connect functions to stores - fetch inputs & persist outputs"
 readme = "README.md"
 requires-python = ">=3.10"
