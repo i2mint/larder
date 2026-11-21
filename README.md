@@ -57,13 +57,15 @@ from larder import store_on_output
 
 output_store = {}
 
-@store_on_output('result', store=output_store)
+
+@store_on_output("result", store=output_store)
 def add(a, b):
-		return a + b
+    return a + b
+
 
 res = add(2, 3)
 assert res == 5
-assert output_store['result'] == 5
+assert output_store["result"] == 5
 ```
 
 Why useful: attach simple persistence to pure functions without changing the
@@ -78,19 +80,19 @@ from larder import DOG
 
 # DOG routes an operation's output to the store whose `type` matches the
 # operation signature's RETURN type, so the store types must be distinct.
-Segment = NewType('Segment', str)
-Embedding = NewType('Embedding', list)
+Segment = NewType("Segment", str)
+Embedding = NewType("Embedding", list)
 Segments = Iterable[Segment]
 Embeddings = Iterable[Embedding]
 
 data_stores = {
-    'segments': {'type': Segments, 'store': {'s1': ['a', 'b']}},
-    'embeddings': {'type': Embeddings, 'store': {}},
+    "segments": {"type": Segments, "store": {"s1": ["a", "b"]}},
+    "embeddings": {"type": Embeddings, "store": {}},
 }
 # the signature's return type (Embeddings) selects the output store
-operation_signatures = {'embedder': Callable[[Segments], Embeddings]}
+operation_signatures = {"embedder": Callable[[Segments], Embeddings]}
 operation_implementations = {
-    'embedder': {'simple': lambda segs: [[ord(c) for c in s] for s in segs]}
+    "embedder": {"simple": lambda segs: [[ord(c) for c in s] for s in segs]}
 }
 
 dog = DOG(
@@ -98,8 +100,10 @@ dog = DOG(
     data_stores=data_stores,
     operation_implementations=operation_implementations,
 )
-out_store, out_key = dog.call(operation_implementations['embedder']['simple'], ['hello'])
-assert out_store == 'embeddings'
+out_store, out_key = dog.call(
+    operation_implementations["embedder"]["simple"], ["hello"]
+)
+assert out_store == "embeddings"
 ```
 
 API reference (main interfaces)
@@ -220,14 +224,16 @@ functionality, all the way to our current `crude.py` coverage.
 ```python
 from larder.wip.input_sourcing import source_variables, mock_mall
 
+
 @source_variables(
-		segments={'resolver': lambda v, sk, mall: mall[sk].get(v), 'store_key': 'segments'},
+    segments={"resolver": lambda v, sk, mall: mall[sk].get(v), "store_key": "segments"},
 )
 def embed_text(segments, embedder):
-		return embedder(segments)
+    return embedder(segments)
+
 
 # mock_mall['segments']['greeting'] == 'hello' and mock_mall['embedders']['default'] exists
-result = embed_text(segments='greeting', embedder=mock_mall['embedders']['default'])
+result = embed_text(segments="greeting", embedder=mock_mall["embedders"]["default"])
 ```
 
 Why useful: API endpoints receive simple keys (or direct values). The
@@ -239,22 +245,31 @@ runs. Use cases include FastAPI endpoints, CLI wrappers, and simple webhooks.
 ```python
 from larder.wip.input_wire import input_wiring
 
+
 # stores are zero-arg callables returning their data (dependency-injector style);
 # a bare `lambda: ...` class attribute would become a bound method, so use a class
 class Store:
-    def __init__(self, data): self._data = data
-    def __call__(self): return self._data
+    def __init__(self, data):
+        self._data = data
+
+    def __call__(self):
+        return self._data
+
 
 class MockMall:
     def __init__(self):
-        self.store1 = Store({'x': 10})
-        self.store2 = Store({'y': 5})
+        self.store1 = Store({"x": 10})
+        self.store2 = Store({"y": 5})
+
 
 def add(a, b, c):
     return a + b * c
 
-wrapped = input_wiring(add, global_param_to_store={'a': 'store1', 'b': 'store2'}, mall=MockMall())
-res = wrapped('x', 'y', 2)  # resolves 'x' -> 10, 'y' -> 5
+
+wrapped = input_wiring(
+    add, global_param_to_store={"a": "store1", "b": "store2"}, mall=MockMall()
+)
+res = wrapped("x", "y", 2)  # resolves 'x' -> 10, 'y' -> 5
 assert res == 20
 ```
 
