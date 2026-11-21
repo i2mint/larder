@@ -587,7 +587,7 @@ except ImportError:
     warn("Could not import dill. The DillFiles will use pickle instead.")
 
 
-@wrap_kvs(data_of_obj=pickler.dumps, obj_of_data=pickler.loads)
+@wrap_kvs(value_encoder=pickler.dumps, value_decoder=pickler.loads)
 class DillFiles(Files):
     """A ``dol.Files`` store that serializes values with ``dill`` (pickle++)."""
 
