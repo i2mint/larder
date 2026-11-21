@@ -1,0 +1,21 @@
+# larder
+
+> Connect functions to stores - fetch inputs & persist outputs
+
+
+## Pages
+
+- [larder — connect functions to stores](index.html.md): Connect functions to stores - fetch inputs &amp; persist outputs.
+- [API reference](api.html.md): | &#96;larder&#96;   | larder: Connect functions to stores - fetch inputs &amp; persist outputs   |
+- [larder](_autosummary/larder.html.md): larder: Connect functions to stores - fetch inputs &amp; persist outputs
+- [larder.crude](_autosummary/larder.crude.html.md): CRUDE stands for CRUD-Execution.
+- [larder.dog](_autosummary/larder.dog.html.md): DOG (Data Operation Graph)
+- [About this build](about-this-build.html.md): This documentation was built on &#42;&#42;2026-11-21 18:12 UTC&#42;&#42; from commit &lt;a href="https://github.com/i2m...
+
+## Optional
+
+- [larder.md](larder.md): Complete documentation in a single file.
+
+## Build
+
+- [build_info.json](build_info.json): build provenance (commit, version, tool versions, whether the docs match the package)

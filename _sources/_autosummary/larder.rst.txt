@@ -1,0 +1,14 @@
+﻿larder
+======
+
+.. automodule:: larder
+
+   
+.. rubric:: Modules
+
+.. autosummary::
+   :toctree:
+   :recursive:
+
+   crude
+   dog

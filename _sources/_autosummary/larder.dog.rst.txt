@@ -1,0 +1,13 @@
+larder.dog
+==========
+
+.. automodule:: larder.dog
+
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      ADOG
+      DOG
+   

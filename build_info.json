@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "built_at": "2026-11-21T18:12:07Z",
+  "package": {
+    "name": "larder",
+    "version": "0.0.9",
+    "display_name": "larder",
+    "source": "pyproject.toml"
+  },
+  "git": {
+    "available": true,
+    "commit": "b111aa088c3fcff29501aa4bee0866bdc24e061b",
+    "short_commit": "b111aa0",
+    "branch": "master",
+    "tags": [],
+    "dirty": false,
+    "remote_url": "https://github.com/i2mint/larder",
+    "commit_url": "https://github.com/i2mint/larder/commit/b111aa088c3fcff29501aa4bee0866bdc24e061b",
+    "error": null
+  },
+  "ci": {
+    "provider": "github",
+    "repository": "i2mint/larder",
+    "sha": "b111aa088c3fcff29501aa4bee0866bdc24e061b",
+    "sha_in_history": true,
+    "ref": "refs/heads/master",
+    "ref_name": "master",
+    "run_id": "44934082569",
+    "run_url": "https://github.com/i2mint/larder/actions/runs/44934082569",
+    "server_url": "https://github.com"
+  },
+  "tools": {
+    "epythet": "0.2.23",
+    "sphinx": "9.1.1",
+    "docutils": "0.22.4",
+    "python": "3.12.16"
+  },
+  "config": {
+    "theme": "auto",
+    "html_theme": "sphinxawesome_theme",
+    "accent": "#006b2b",
+    "mode": "auto",
+    "api_generator": "autosummary",
+    "ignore": [
+      "tests/",
+      "scrap/",
+      "examples/"
+    ],
+    "agent_outputs": true,
+    "aggregates": [
+      "md"
+    ],
+    "ai_artifacts": true,
+    "provenance": true,
+    "docs_dir": "docsrc"
+  },
+  "site": {
+    "modules_documented": 3,
+    "objects_documented": 15
+  },
+  "pypi": {
+    "checked": true,
+    "latest": "0.0.10",
+    "relation": "behind",
+    "error": null
+  },
+  "reproduce": "git clone https://github.com/i2mint/larder && cd larder\ngit checkout b111aa088c3fcff29501aa4bee0866bdc24e061b\npip install \"epythet==0.2.23\"\nepythet quickstart . --ignore tests/ scrap/ examples/",
+  "warnings": [],
+  "alignment": {
+    "aligned": false,
+    "notes": [
+      "The documented version (0.0.9) is behind the latest release on PyPI (0.0.10): `pip install larder` gives newer code than these docs describe."
+    ]
+  }
+}

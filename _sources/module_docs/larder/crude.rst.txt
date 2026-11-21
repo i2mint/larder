@@ -1,4 +1,0 @@
-larder.crude
-============
-.. automodule:: larder.crude
-   :members:

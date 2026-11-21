@@ -1,4 +1,0 @@
-larder.dog
-==========
-.. automodule:: larder.dog
-   :members:
