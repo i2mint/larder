@@ -53,24 +53,39 @@ data_stores = {
     "cluster_indices": {"type": ClusterIndices, "store": dict()},
 }
 
+# Module-level functions, not lambdas: the ADOG test submits these to a process pool, and
+# under the "spawn" start method (Windows, macOS) the work must be picklable.
+def _embed_constant(segments):
+    return [[1, 2, 3] for _ in segments]
+
+
+def _embed_segment_based(segments):
+    return [[len(s), 0.5, 0.5] for s in segments]
+
+
+def _planarize_constant(embeddings):
+    return [(e[0], e[1]) for e in embeddings]
+
+
+def _planarize_embedding_based(embeddings):
+    return [[e[0] * 0.5, e[1] * 0.5] for e in embeddings]
+
+
+def _cluster_kmeans(embeddings):
+    return [0, 1] * (len(embeddings) // 2 + len(embeddings) % 2)
+
+
+def _cluster_dbscan(embeddings):
+    return [-1] * len(embeddings)
+
+
 operation_implementations = {
-    "embedder": {
-        "constant": lambda segments: vectorize(lambda s: [1, 2, 3])(segments),
-        "segment_based": lambda segments: vectorize(lambda s: [len(s), 0.5, 0.5])(
-            segments
-        ),
-    },
+    "embedder": {"constant": _embed_constant, "segment_based": _embed_segment_based},
     "planarizer": {
-        "constant": lambda embeddings: vectorize(lambda e: (e[0], e[1]))(embeddings),
-        "embedding_based": lambda embeddings: vectorize(
-            lambda e: [e[0] * 0.5, e[1] * 0.5]
-        )(embeddings),
+        "constant": _planarize_constant,
+        "embedding_based": _planarize_embedding_based,
     },
-    "clusterer": {
-        "kmeans": lambda embeddings: [0, 1]
-        * (len(embeddings) // 2 + len(embeddings) % 2),
-        "dbscan": lambda embeddings: [-1] * len(embeddings),
-    },
+    "clusterer": {"kmeans": _cluster_kmeans, "dbscan": _cluster_dbscan},
 }
 
 import copy
@@ -293,3 +308,12 @@ def test_dog_sourced_operation(stores_type: Literal["ram", "local"] = "ram"):
     result2 = dog.data_stores[output_store2][output_key2]
     assert list(map(list, result2)) == [[1, 2], [4, 5]]
     print("test_dog_sourced_operation passed.")
+
+
+def test_operation_implementations_are_picklable():
+    """The ADOG test sends them to a process pool; under "spawn" (Windows) a lambda cannot go (larder#5)."""
+    import pickle
+
+    for group in operation_implementations.values():
+        for impl in group.values():
+            assert pickle.loads(pickle.dumps(impl)) is impl
