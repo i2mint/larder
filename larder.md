@@ -1,4 +1,4 @@
-> built 2026-11-21 18:12 UTC from b111aa0 (master) · larder 0.0.9. Details: build_info.json
+> built 2026-11-23 07:43 UTC from ad1bd21 (master) · larder 0.0.10. Details: build_info.json
 
 # index.html.md
 
@@ -8,11 +8,11 @@
 
 Connect functions to stores - fetch inputs & persist outputs.
 
-This package provides small utilities to “CRUD-ify” function inputs and outputs:
-let callers refer to any complex Python objects (functions, tables, etc.)
-by string keys stored in simple mappings (a “mall”), and to persist outputs
-into stores. The code is intentionally tiny and dependency-light; it contains
-three practical pieces you will use together or separately:
+```bash
+pip install larder
+```
+
+This package provides small utilities to “CRUD-ify” function inputs and outputs: let callers refer to any complex Python objects (functions, tables, etc.) by string keys stored in simple mappings (a “mall”), and to persist outputs into stores. The code is intentionally tiny and dependency-light; it contains three practical pieces you will use together or separately:
 
 - `crude.py` — helpers to wrap functions so they read inputs from stores and
   persist outputs (decorators, factory wrappers, simple file-backed helpers).
@@ -22,12 +22,7 @@ three practical pieces you will use together or separately:
 
 ## Why this exists
 
-Many UIs and service layers cannot pass rich Python objects (functions,
-in-memory tables, model objects) directly. Instead they pass lightweight keys
-that reference objects stored in a session or filesystem. `larder` gives you
-the plumbing to map those keys back into real Python values before calling
-your functions, and to persist outputs back into stores under predictable
-keys.
+Many UIs and service layers cannot pass rich Python objects (functions, in-memory tables, model objects) directly. Instead they pass lightweight keys that reference objects stored in a session or filesystem. `larder` gives you the plumbing to map those keys back into real Python values before calling your functions, and to persist outputs back into stores under predictable keys.
 
 This makes it easy to:
 
@@ -53,8 +48,7 @@ This makes it easy to:
 
 ## Short working examples (taken from the tests)
 
-These examples are simplified extracts from the package tests so you can
-quickly try the patterns that are covered by tests in `larder/tests`.
+These examples are simplified extracts from the package tests so you can quickly try the patterns that are covered by tests in `larder/tests`.
 
 1. Persisting a function’s output (sync)
 
@@ -63,18 +57,18 @@ from larder import store_on_output
 
 output_store = {}
 
-@store_on_output('result', store=output_store)
+
+@store_on_output("result", store=output_store)
 def add(a, b):
-		return a + b
+    return a + b
+
 
 res = add(2, 3)
 assert res == 5
-assert output_store['result'] == 5
+assert output_store["result"] == 5
 ```
 
-Why useful: attach simple persistence to pure functions without changing the
-function body. Use cases: caching, background result pickling, lightweight
-audit logs.
+Why useful: attach simple persistence to pure functions without changing the function body. Use cases: caching, background result pickling, lightweight audit logs.
 
 (2) DOG example (minimal)
 
@@ -84,19 +78,19 @@ from larder import DOG
 
 # DOG routes an operation's output to the store whose `type` matches the
 # operation signature's RETURN type, so the store types must be distinct.
-Segment = NewType('Segment', str)
-Embedding = NewType('Embedding', list)
+Segment = NewType("Segment", str)
+Embedding = NewType("Embedding", list)
 Segments = Iterable[Segment]
 Embeddings = Iterable[Embedding]
 
 data_stores = {
-    'segments': {'type': Segments, 'store': {'s1': ['a', 'b']}},
-    'embeddings': {'type': Embeddings, 'store': {}},
+    "segments": {"type": Segments, "store": {"s1": ["a", "b"]}},
+    "embeddings": {"type": Embeddings, "store": {}},
 }
 # the signature's return type (Embeddings) selects the output store
-operation_signatures = {'embedder': Callable[[Segments], Embeddings]}
+operation_signatures = {"embedder": Callable[[Segments], Embeddings]}
 operation_implementations = {
-    'embedder': {'simple': lambda segs: [[ord(c) for c in s] for s in segs]}
+    "embedder": {"simple": lambda segs: [[ord(c) for c in s] for s in segs]}
 }
 
 dog = DOG(
@@ -104,14 +98,15 @@ dog = DOG(
     data_stores=data_stores,
     operation_implementations=operation_implementations,
 )
-out_store, out_key = dog.call(operation_implementations['embedder']['simple'], ['hello'])
-assert out_store == 'embeddings'
+out_store, out_key = dog.call(
+    operation_implementations["embedder"]["simple"], ["hello"]
+)
+assert out_store == "embeddings"
 ```
 
 ## API reference (main interfaces)
 
-Below are the most important functions and classes you will use. The list is
-concise but mentions the main options; consult the code for advanced knobs.
+Below are the most important functions and classes you will use. The list is concise but mentions the main options; consult the code for advanced knobs.
 
 ```text
 crude.store_on_output(save_name_or_func=None, *, store=None, store_multi_values=False,
@@ -206,20 +201,13 @@ pytest -q
 - If you want, I can add a tiny example script under `examples/` that shows a
   small end-to-end flow (upload -> compute -> persist) using `DillFiles`.
 
-If you’d like the README changed in tone, length, or to include additional
-examples (FastAPI, background workers, or real file-backed stores), say which
-example and I will add it.
+If you’d like the README changed in tone, length, or to include additional examples (FastAPI, background workers, or real file-backed stores), say which example and I will add it.
 
-‘’’
-pip install larder
-‘’’
+‘’’ pip install larder ‘’’
 
 ## Work-in-Progress
 
-We’re working on some alternatives to crude. Less complete, but simpler.
-The idea is maybe to one day refactor `crude.py` to start with simpler functions
-that implement the most frequent use cases, and then add layers that extend it’s
-functionality, all the way to our current `crude.py` coverage.
+We’re working on some alternatives to crude. Less complete, but simpler. The idea is maybe to one day refactor `crude.py` to start with simpler functions that implement the most frequent use cases, and then add layers that extend it’s functionality, all the way to our current `crude.py` coverage.
 
 - `wip/input_sourcing.py` — the `source_variables` decorator that resolves
   function arguments from a mall (useful for APIs and FastAPI endpoints).
@@ -231,46 +219,54 @@ functionality, all the way to our current `crude.py` coverage.
 ```python
 from larder.wip.input_sourcing import source_variables, mock_mall
 
+
 @source_variables(
-		segments={'resolver': lambda v, sk, mall: mall[sk].get(v), 'store_key': 'segments'},
+    segments={"resolver": lambda v, sk, mall: mall[sk].get(v), "store_key": "segments"},
 )
 def embed_text(segments, embedder):
-		return embedder(segments)
+    return embedder(segments)
+
 
 # mock_mall['segments']['greeting'] == 'hello' and mock_mall['embedders']['default'] exists
-result = embed_text(segments='greeting', embedder=mock_mall['embedders']['default'])
+result = embed_text(segments="greeting", embedder=mock_mall["embedders"]["default"])
 ```
 
-Why useful: API endpoints receive simple keys (or direct values). The
-decorator transparently resolves keys to Python objects before the handler
-runs. Use cases include FastAPI endpoints, CLI wrappers, and simple webhooks.
+Why useful: API endpoints receive simple keys (or direct values). The decorator transparently resolves keys to Python objects before the handler runs. Use cases include FastAPI endpoints, CLI wrappers, and simple webhooks.
 
 **Simple input wiring (dependency-injector style)**
 
 ```python
 from larder.wip.input_wire import input_wiring
 
+
 # stores are zero-arg callables returning their data (dependency-injector style);
 # a bare `lambda: ...` class attribute would become a bound method, so use a class
 class Store:
-    def __init__(self, data): self._data = data
-    def __call__(self): return self._data
+    def __init__(self, data):
+        self._data = data
+
+    def __call__(self):
+        return self._data
+
 
 class MockMall:
     def __init__(self):
-        self.store1 = Store({'x': 10})
-        self.store2 = Store({'y': 5})
+        self.store1 = Store({"x": 10})
+        self.store2 = Store({"y": 5})
+
 
 def add(a, b, c):
     return a + b * c
 
-wrapped = input_wiring(add, global_param_to_store={'a': 'store1', 'b': 'store2'}, mall=MockMall())
-res = wrapped('x', 'y', 2)  # resolves 'x' -> 10, 'y' -> 5
+
+wrapped = input_wiring(
+    add, global_param_to_store={"a": "store1", "b": "store2"}, mall=MockMall()
+)
+res = wrapped("x", "y", 2)  # resolves 'x' -> 10, 'y' -> 5
 assert res == 20
 ```
 
-Why useful: small bridge to dependency-injection style stores. Helpful when
-tests or apps already expose stores via an object with callable attributes.
+Why useful: small bridge to dependency-injection style stores. Helpful when tests or apps already expose stores via an object with callable attributes.
 
 <p class="epythet-aggregates">This documentation as a single file: <a href="larder.md">larder.md</a> (Markdown, for agents).</p>
 
@@ -532,18 +528,18 @@ larder: Connect functions to stores - fetch inputs & persist outputs
 
 # About this build
 
-This documentation was built on **2026-11-21 18:12 UTC** from commit <a href="https://github.com/i2mint/larder/commit/b111aa088c3fcff29501aa4bee0866bdc24e061b"><code>b111aa0</code></a> on branch <code>master</code>, for **larder 0.0.9** (from <code>pyproject.toml</code>).
+This documentation was built on **2026-11-23 07:43 UTC** from commit <a href="https://github.com/i2mint/larder/commit/ad1bd217a3a4fe8a310fbfbf8925a84d54e7a7e4"><code>ad1bd21</code></a> on branch <code>master</code>, for **larder 0.0.10** (from <code>pyproject.toml</code>).
 
 #### WARNING
 The documentation and the package may be misaligned:
 
-- The documented version (0.0.9) is behind the latest release on PyPI (0.0.10): `pip install larder` gives newer code than these docs describe.
+- The documented version (0.0.10) is behind the latest release on PyPI (0.0.11): `pip install larder` gives newer code than these docs describe.
 
 ## Source
 
 |                     |                                                                                                                                                      |
 |---------------------|------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Commit              | <a href="https://github.com/i2mint/larder/commit/b111aa088c3fcff29501aa4bee0866bdc24e061b"><code>b111aa088c3fcff29501aa4bee0866bdc24e061b</code></a> |
+| Commit              | <a href="https://github.com/i2mint/larder/commit/ad1bd217a3a4fe8a310fbfbf8925a84d54e7a7e4"><code>ad1bd217a3a4fe8a310fbfbf8925a84d54e7a7e4</code></a> |
 | Branch              | <code>master</code>                                                                                                                                  |
 | Tags at this commit | none                                                                                                                                                 |
 | Working tree        | clean                                                                                                                                                |
@@ -554,15 +550,15 @@ The documentation and the package may be misaligned:
 |              |                                                                                            |
 |--------------|--------------------------------------------------------------------------------------------|
 | Repository   | <code>i2mint/larder</code>                                                                 |
-| Run          | <a href="https://github.com/i2mint/larder/actions/runs/44934082569">44934082569</a>        |
+| Run          | <a href="https://github.com/i2mint/larder/actions/runs/45133052615">45133052615</a>        |
 | Ref          | <code>refs/heads/master</code>                                                             |
-| Event commit | <code>b111aa088c3fcff29501aa4bee0866bdc24e061b</code> (in the history of the built commit) |
+| Event commit | <code>ad1bd217a3a4fe8a310fbfbf8925a84d54e7a7e4</code> (in the history of the built commit) |
 
 ## Tools
 
 |          |         |
 |----------|---------|
-| epythet  | 0.2.23  |
+| epythet  | 0.2.24  |
 | Sphinx   | 9.1.1   |
 | docutils | 0.22.4  |
 | Python   | 3.12.16 |
@@ -581,14 +577,14 @@ The documentation and the package may be misaligned:
 
 ## Package on PyPI
 
-Latest release: <a href="https://pypi.org/project/larder/0.0.10/">0.0.10</a>, newer than the documented version (0.0.9).
+Latest release: <a href="https://pypi.org/project/larder/0.0.11/">0.0.11</a>, newer than the documented version (0.0.10).
 
 ## Reproduce
 
 ```bash
 git clone https://github.com/i2mint/larder && cd larder
-git checkout b111aa088c3fcff29501aa4bee0866bdc24e061b
-pip install "epythet==0.2.23"
+git checkout ad1bd217a3a4fe8a310fbfbf8925a84d54e7a7e4
+pip install "epythet==0.2.24"
 epythet quickstart . --ignore tests/ scrap/ examples/
 ```
 

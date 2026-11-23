@@ -5,19 +5,19 @@ orphan: true
 
 # About this build
 
-This documentation was built on **2026-11-21 18:12 UTC** from commit <a href="https://github.com/i2mint/larder/commit/b111aa088c3fcff29501aa4bee0866bdc24e061b"><code>b111aa0</code></a> on branch <code>master</code>, for **larder 0.0.9** (from <code>pyproject.toml</code>).
+This documentation was built on **2026-11-23 07:43 UTC** from commit <a href="https://github.com/i2mint/larder/commit/ad1bd217a3a4fe8a310fbfbf8925a84d54e7a7e4"><code>ad1bd21</code></a> on branch <code>master</code>, for **larder 0.0.10** (from <code>pyproject.toml</code>).
 
 :::{warning}
 The documentation and the package may be misaligned:
 
-- The documented version (0.0.9) is behind the latest release on PyPI (0.0.10): `pip install larder` gives newer code than these docs describe.
+- The documented version (0.0.10) is behind the latest release on PyPI (0.0.11): `pip install larder` gives newer code than these docs describe.
 :::
 
 ## Source
 
 | | |
 |---|---|
-| Commit | <a href="https://github.com/i2mint/larder/commit/b111aa088c3fcff29501aa4bee0866bdc24e061b"><code>b111aa088c3fcff29501aa4bee0866bdc24e061b</code></a> |
+| Commit | <a href="https://github.com/i2mint/larder/commit/ad1bd217a3a4fe8a310fbfbf8925a84d54e7a7e4"><code>ad1bd217a3a4fe8a310fbfbf8925a84d54e7a7e4</code></a> |
 | Branch | <code>master</code> |
 | Tags at this commit | none |
 | Working tree | clean |
@@ -28,15 +28,15 @@ The documentation and the package may be misaligned:
 | | |
 |---|---|
 | Repository | <code>i2mint/larder</code> |
-| Run | <a href="https://github.com/i2mint/larder/actions/runs/44934082569">44934082569</a> |
+| Run | <a href="https://github.com/i2mint/larder/actions/runs/45133052615">45133052615</a> |
 | Ref | <code>refs/heads/master</code> |
-| Event commit | <code>b111aa088c3fcff29501aa4bee0866bdc24e061b</code> (in the history of the built commit) |
+| Event commit | <code>ad1bd217a3a4fe8a310fbfbf8925a84d54e7a7e4</code> (in the history of the built commit) |
 
 ## Tools
 
 | | |
 |---|---|
-| epythet | 0.2.23 |
+| epythet | 0.2.24 |
 | Sphinx | 9.1.1 |
 | docutils | 0.22.4 |
 | Python | 3.12.16 |
@@ -55,14 +55,14 @@ The documentation and the package may be misaligned:
 
 ## Package on PyPI
 
-Latest release: <a href="https://pypi.org/project/larder/0.0.10/">0.0.10</a>, newer than the documented version (0.0.9).
+Latest release: <a href="https://pypi.org/project/larder/0.0.11/">0.0.11</a>, newer than the documented version (0.0.10).
 
 ## Reproduce
 
 ```bash
 git clone https://github.com/i2mint/larder && cd larder
-git checkout b111aa088c3fcff29501aa4bee0866bdc24e061b
-pip install "epythet==0.2.23"
+git checkout ad1bd217a3a4fe8a310fbfbf8925a84d54e7a7e4
+pip install "epythet==0.2.24"
 epythet quickstart . --ignore tests/ scrap/ examples/
 ```
 

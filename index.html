@@ -106,11 +106,10 @@
 <section id="larder-connect-functions-to-stores">
 <span id="larder--connect-functions-to-stores"></span><h1>larder — connect functions to stores<a @click.prevent="window.navigator.clipboard.writeText($el.href); $el.setAttribute('data-tooltip', 'Copied!'); setTimeout(() =&gt; $el.setAttribute('data-tooltip', 'Copy link to this element'), 2000)" aria-label="Copy link to this element" class="headerlink" data-tooltip="Copy link to this element" href="#larder-connect-functions-to-stores">¶</a></h1>
 <p>Connect functions to stores - fetch inputs &amp; persist outputs.</p>
-<p>This package provides small utilities to “CRUD-ify” function inputs and outputs:
-let callers refer to any complex Python objects (functions, tables, etc.)
-by string keys stored in simple mappings (a “mall”), and to persist outputs
-into stores. The code is intentionally tiny and dependency-light; it contains
-three practical pieces you will use together or separately:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><code><span id="line-1">pip<span class="w"> </span>install<span class="w"> </span>larder
+</span></code></pre></div>
+</div>
+<p>This package provides small utilities to “CRUD-ify” function inputs and outputs: let callers refer to any complex Python objects (functions, tables, etc.) by string keys stored in simple mappings (a “mall”), and to persist outputs into stores. The code is intentionally tiny and dependency-light; it contains three practical pieces you will use together or separately:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">crude.py</span></code> — helpers to wrap functions so they read inputs from stores and
 persist outputs (decorators, factory wrappers, simple file-backed helpers).
@@ -120,12 +119,7 @@ which route operation outputs into the appropriate data store.</p></li>
 </ul>
 <section id="why-this-exists">
 <h2>Why this exists<a @click.prevent="window.navigator.clipboard.writeText($el.href); $el.setAttribute('data-tooltip', 'Copied!'); setTimeout(() =&gt; $el.setAttribute('data-tooltip', 'Copy link to this element'), 2000)" aria-label="Copy link to this element" class="headerlink" data-tooltip="Copy link to this element" href="#why-this-exists" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#why-this-exists'">¶</a></h2>
-<p>Many UIs and service layers cannot pass rich Python objects (functions,
-in-memory tables, model objects) directly. Instead they pass lightweight keys
-that reference objects stored in a session or filesystem. <code class="docutils literal notranslate"><span class="pre">larder</span></code> gives you
-the plumbing to map those keys back into real Python values before calling
-your functions, and to persist outputs back into stores under predictable
-keys.</p>
+<p>Many UIs and service layers cannot pass rich Python objects (functions, in-memory tables, model objects) directly. Instead they pass lightweight keys that reference objects stored in a session or filesystem. <code class="docutils literal notranslate"><span class="pre">larder</span></code> gives you the plumbing to map those keys back into real Python values before calling your functions, and to persist outputs back into stores under predictable keys.</p>
 <p>This makes it easy to:</p>
 <ul class="simple">
 <li><p>Drive computations from a GUI or web API using human-friendly string keys.</p></li>
@@ -153,8 +147,7 @@ functions and dispatches accordingly).</p></li>
 </section>
 <section id="short-working-examples-taken-from-the-tests">
 <h2>Short working examples (taken from the tests)<a @click.prevent="window.navigator.clipboard.writeText($el.href); $el.setAttribute('data-tooltip', 'Copied!'); setTimeout(() =&gt; $el.setAttribute('data-tooltip', 'Copy link to this element'), 2000)" aria-label="Copy link to this element" class="headerlink" data-tooltip="Copy link to this element" href="#short-working-examples-taken-from-the-tests" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#short-working-examples-taken-from-the-tests'">¶</a></h2>
-<p>These examples are simplified extracts from the package tests so you can
-quickly try the patterns that are covered by tests in <code class="docutils literal notranslate"><span class="pre">larder/tests</span></code>.</p>
+<p>These examples are simplified extracts from the package tests so you can quickly try the patterns that are covered by tests in <code class="docutils literal notranslate"><span class="pre">larder/tests</span></code>.</p>
 <ol class="arabic simple">
 <li><p>Persisting a function’s output (sync)</p></li>
 </ol>
@@ -162,37 +155,37 @@ quickly try the patterns that are covered by tests in <code class="docutils lite
 </span><span id="line-2">
 </span><span id="line-3"><span class="n">output_store</span> <span class="o">=</span> <span class="p">{}</span>
 </span><span id="line-4">
-</span><span id="line-5"><span class="nd">@store_on_output</span><span class="p">(</span><span class="s1">'result'</span><span class="p">,</span> <span class="n">store</span><span class="o">=</span><span class="n">output_store</span><span class="p">)</span>
-</span><span id="line-6"><span class="k">def</span><span class="w"> </span><span class="nf">add</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
-</span><span id="line-7">		<span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
-</span><span id="line-8">
-</span><span id="line-9"><span class="n">res</span> <span class="o">=</span> <span class="n">add</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
-</span><span id="line-10"><span class="k">assert</span> <span class="n">res</span> <span class="o">==</span> <span class="mi">5</span>
-</span><span id="line-11"><span class="k">assert</span> <span class="n">output_store</span><span class="p">[</span><span class="s1">'result'</span><span class="p">]</span> <span class="o">==</span> <span class="mi">5</span>
+</span><span id="line-5">
+</span><span id="line-6"><span class="nd">@store_on_output</span><span class="p">(</span><span class="s2">"result"</span><span class="p">,</span> <span class="n">store</span><span class="o">=</span><span class="n">output_store</span><span class="p">)</span>
+</span><span id="line-7"><span class="k">def</span><span class="w"> </span><span class="nf">add</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+</span><span id="line-8">    <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+</span><span id="line-9">
+</span><span id="line-10">
+</span><span id="line-11"><span class="n">res</span> <span class="o">=</span> <span class="n">add</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+</span><span id="line-12"><span class="k">assert</span> <span class="n">res</span> <span class="o">==</span> <span class="mi">5</span>
+</span><span id="line-13"><span class="k">assert</span> <span class="n">output_store</span><span class="p">[</span><span class="s2">"result"</span><span class="p">]</span> <span class="o">==</span> <span class="mi">5</span>
 </span></code></pre></div>
 </div>
-<p>Why useful: attach simple persistence to pure functions without changing the
-function body. Use cases: caching, background result pickling, lightweight
-audit logs.</p>
+<p>Why useful: attach simple persistence to pure functions without changing the function body. Use cases: caching, background result pickling, lightweight audit logs.</p>
 <p>(2) DOG example (minimal)</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">NewType</span>
 </span><span id="line-2"><span class="kn">from</span><span class="w"> </span><span class="nn">larder</span><span class="w"> </span><span class="kn">import</span> <span class="n">DOG</span>
 </span><span id="line-3">
 </span><span id="line-4"><span class="c1"># DOG routes an operation's output to the store whose `type` matches the</span>
 </span><span id="line-5"><span class="c1"># operation signature's RETURN type, so the store types must be distinct.</span>
-</span><span id="line-6"><span class="n">Segment</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s1">'Segment'</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
-</span><span id="line-7"><span class="n">Embedding</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s1">'Embedding'</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span>
+</span><span id="line-6"><span class="n">Segment</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">"Segment"</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+</span><span id="line-7"><span class="n">Embedding</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">"Embedding"</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span>
 </span><span id="line-8"><span class="n">Segments</span> <span class="o">=</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Segment</span><span class="p">]</span>
 </span><span id="line-9"><span class="n">Embeddings</span> <span class="o">=</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Embedding</span><span class="p">]</span>
 </span><span id="line-10">
 </span><span id="line-11"><span class="n">data_stores</span> <span class="o">=</span> <span class="p">{</span>
-</span><span id="line-12">    <span class="s1">'segments'</span><span class="p">:</span> <span class="p">{</span><span class="s1">'type'</span><span class="p">:</span> <span class="n">Segments</span><span class="p">,</span> <span class="s1">'store'</span><span class="p">:</span> <span class="p">{</span><span class="s1">'s1'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'a'</span><span class="p">,</span> <span class="s1">'b'</span><span class="p">]}},</span>
-</span><span id="line-13">    <span class="s1">'embeddings'</span><span class="p">:</span> <span class="p">{</span><span class="s1">'type'</span><span class="p">:</span> <span class="n">Embeddings</span><span class="p">,</span> <span class="s1">'store'</span><span class="p">:</span> <span class="p">{}},</span>
+</span><span id="line-12">    <span class="s2">"segments"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"type"</span><span class="p">:</span> <span class="n">Segments</span><span class="p">,</span> <span class="s2">"store"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"s1"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"a"</span><span class="p">,</span> <span class="s2">"b"</span><span class="p">]}},</span>
+</span><span id="line-13">    <span class="s2">"embeddings"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"type"</span><span class="p">:</span> <span class="n">Embeddings</span><span class="p">,</span> <span class="s2">"store"</span><span class="p">:</span> <span class="p">{}},</span>
 </span><span id="line-14"><span class="p">}</span>
 </span><span id="line-15"><span class="c1"># the signature's return type (Embeddings) selects the output store</span>
-</span><span id="line-16"><span class="n">operation_signatures</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'embedder'</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Segments</span><span class="p">],</span> <span class="n">Embeddings</span><span class="p">]}</span>
+</span><span id="line-16"><span class="n">operation_signatures</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"embedder"</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Segments</span><span class="p">],</span> <span class="n">Embeddings</span><span class="p">]}</span>
 </span><span id="line-17"><span class="n">operation_implementations</span> <span class="o">=</span> <span class="p">{</span>
-</span><span id="line-18">    <span class="s1">'embedder'</span><span class="p">:</span> <span class="p">{</span><span class="s1">'simple'</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">segs</span><span class="p">:</span> <span class="p">[[</span><span class="nb">ord</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">s</span><span class="p">]</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">segs</span><span class="p">]}</span>
+</span><span id="line-18">    <span class="s2">"embedder"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"simple"</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">segs</span><span class="p">:</span> <span class="p">[[</span><span class="nb">ord</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">s</span><span class="p">]</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">segs</span><span class="p">]}</span>
 </span><span id="line-19"><span class="p">}</span>
 </span><span id="line-20">
 </span><span id="line-21"><span class="n">dog</span> <span class="o">=</span> <span class="n">DOG</span><span class="p">(</span>
@@ -200,15 +193,16 @@ audit logs.</p>
 </span><span id="line-23">    <span class="n">data_stores</span><span class="o">=</span><span class="n">data_stores</span><span class="p">,</span>
 </span><span id="line-24">    <span class="n">operation_implementations</span><span class="o">=</span><span class="n">operation_implementations</span><span class="p">,</span>
 </span><span id="line-25"><span class="p">)</span>
-</span><span id="line-26"><span class="n">out_store</span><span class="p">,</span> <span class="n">out_key</span> <span class="o">=</span> <span class="n">dog</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="n">operation_implementations</span><span class="p">[</span><span class="s1">'embedder'</span><span class="p">][</span><span class="s1">'simple'</span><span class="p">],</span> <span class="p">[</span><span class="s1">'hello'</span><span class="p">])</span>
-</span><span id="line-27"><span class="k">assert</span> <span class="n">out_store</span> <span class="o">==</span> <span class="s1">'embeddings'</span>
+</span><span id="line-26"><span class="n">out_store</span><span class="p">,</span> <span class="n">out_key</span> <span class="o">=</span> <span class="n">dog</span><span class="o">.</span><span class="n">call</span><span class="p">(</span>
+</span><span id="line-27">    <span class="n">operation_implementations</span><span class="p">[</span><span class="s2">"embedder"</span><span class="p">][</span><span class="s2">"simple"</span><span class="p">],</span> <span class="p">[</span><span class="s2">"hello"</span><span class="p">]</span>
+</span><span id="line-28"><span class="p">)</span>
+</span><span id="line-29"><span class="k">assert</span> <span class="n">out_store</span> <span class="o">==</span> <span class="s2">"embeddings"</span>
 </span></code></pre></div>
 </div>
 </section>
 <section id="api-reference-main-interfaces">
 <h2>API reference (main interfaces)<a @click.prevent="window.navigator.clipboard.writeText($el.href); $el.setAttribute('data-tooltip', 'Copied!'); setTimeout(() =&gt; $el.setAttribute('data-tooltip', 'Copy link to this element'), 2000)" aria-label="Copy link to this element" class="headerlink" data-tooltip="Copy link to this element" href="#api-reference-main-interfaces" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#api-reference-main-interfaces'">¶</a></h2>
-<p>Below are the most important functions and classes you will use. The list is
-concise but mentions the main options; consult the code for advanced knobs.</p>
+<p>Below are the most important functions and classes you will use. The list is concise but mentions the main options; consult the code for advanced knobs.</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span><code><span id="line-1">crude.store_on_output(save_name_or_func=None, *, store=None, store_multi_values=False,
 </span><span id="line-2">											save_name_param='save_name', add_store_to_func_attr='output_store',
 </span><span id="line-3">											empty_name_callback=None, auto_namer=None, output_trans=None)
@@ -312,19 +306,12 @@ store into the mall (in-memory dicts, <code class="docutils literal notranslate"
 <li><p>If you want, I can add a tiny example script under <code class="docutils literal notranslate"><span class="pre">examples/</span></code> that shows a
 small end-to-end flow (upload -&gt; compute -&gt; persist) using <code class="docutils literal notranslate"><span class="pre">DillFiles</span></code>.</p></li>
 </ul>
-<p>If you’d like the README changed in tone, length, or to include additional
-examples (FastAPI, background workers, or real file-backed stores), say which
-example and I will add it.</p>
-<p>‘’’
-pip install larder
-‘’’</p>
+<p>If you’d like the README changed in tone, length, or to include additional examples (FastAPI, background workers, or real file-backed stores), say which example and I will add it.</p>
+<p>‘’’ pip install larder ‘’’</p>
 </section>
 <section id="work-in-progress">
 <h2>Work-in-Progress<a @click.prevent="window.navigator.clipboard.writeText($el.href); $el.setAttribute('data-tooltip', 'Copied!'); setTimeout(() =&gt; $el.setAttribute('data-tooltip', 'Copy link to this element'), 2000)" aria-label="Copy link to this element" class="headerlink" data-tooltip="Copy link to this element" href="#work-in-progress" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#work-in-progress'">¶</a></h2>
-<p>We’re working on some alternatives to crude. Less complete, but simpler.
-The idea is maybe to one day refactor <code class="docutils literal notranslate"><span class="pre">crude.py</span></code> to start with simpler functions
-that implement the most frequent use cases, and then add layers that extend it’s
-functionality, all the way to our current <code class="docutils literal notranslate"><span class="pre">crude.py</span></code> coverage.</p>
+<p>We’re working on some alternatives to crude. Less complete, but simpler. The idea is maybe to one day refactor <code class="docutils literal notranslate"><span class="pre">crude.py</span></code> to start with simpler functions that implement the most frequent use cases, and then add layers that extend it’s functionality, all the way to our current <code class="docutils literal notranslate"><span class="pre">crude.py</span></code> coverage.</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">wip/input_sourcing.py</span></code> — the <code class="docutils literal notranslate"><span class="pre">source_variables</span></code> decorator that resolves
 function arguments from a mall (useful for APIs and FastAPI endpoints).</p></li>
@@ -334,48 +321,56 @@ parameters to values from a dependency-injector style mall.</p></li>
 <p><strong>Resolve arguments from a mall using <code class="docutils literal notranslate"><span class="pre">source_variables</span></code></strong></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="kn">from</span><span class="w"> </span><span class="nn">larder.wip.input_sourcing</span><span class="w"> </span><span class="kn">import</span> <span class="n">source_variables</span><span class="p">,</span> <span class="n">mock_mall</span>
 </span><span id="line-2">
-</span><span id="line-3"><span class="nd">@source_variables</span><span class="p">(</span>
-</span><span id="line-4">		<span class="n">segments</span><span class="o">=</span><span class="p">{</span><span class="s1">'resolver'</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">v</span><span class="p">,</span> <span class="n">sk</span><span class="p">,</span> <span class="n">mall</span><span class="p">:</span> <span class="n">mall</span><span class="p">[</span><span class="n">sk</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">v</span><span class="p">),</span> <span class="s1">'store_key'</span><span class="p">:</span> <span class="s1">'segments'</span><span class="p">},</span>
-</span><span id="line-5"><span class="p">)</span>
-</span><span id="line-6"><span class="k">def</span><span class="w"> </span><span class="nf">embed_text</span><span class="p">(</span><span class="n">segments</span><span class="p">,</span> <span class="n">embedder</span><span class="p">):</span>
-</span><span id="line-7">		<span class="k">return</span> <span class="n">embedder</span><span class="p">(</span><span class="n">segments</span><span class="p">)</span>
-</span><span id="line-8">
-</span><span id="line-9"><span class="c1"># mock_mall['segments']['greeting'] == 'hello' and mock_mall['embedders']['default'] exists</span>
-</span><span id="line-10"><span class="n">result</span> <span class="o">=</span> <span class="n">embed_text</span><span class="p">(</span><span class="n">segments</span><span class="o">=</span><span class="s1">'greeting'</span><span class="p">,</span> <span class="n">embedder</span><span class="o">=</span><span class="n">mock_mall</span><span class="p">[</span><span class="s1">'embedders'</span><span class="p">][</span><span class="s1">'default'</span><span class="p">])</span>
+</span><span id="line-3">
+</span><span id="line-4"><span class="nd">@source_variables</span><span class="p">(</span>
+</span><span id="line-5">    <span class="n">segments</span><span class="o">=</span><span class="p">{</span><span class="s2">"resolver"</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">v</span><span class="p">,</span> <span class="n">sk</span><span class="p">,</span> <span class="n">mall</span><span class="p">:</span> <span class="n">mall</span><span class="p">[</span><span class="n">sk</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">v</span><span class="p">),</span> <span class="s2">"store_key"</span><span class="p">:</span> <span class="s2">"segments"</span><span class="p">},</span>
+</span><span id="line-6"><span class="p">)</span>
+</span><span id="line-7"><span class="k">def</span><span class="w"> </span><span class="nf">embed_text</span><span class="p">(</span><span class="n">segments</span><span class="p">,</span> <span class="n">embedder</span><span class="p">):</span>
+</span><span id="line-8">    <span class="k">return</span> <span class="n">embedder</span><span class="p">(</span><span class="n">segments</span><span class="p">)</span>
+</span><span id="line-9">
+</span><span id="line-10">
+</span><span id="line-11"><span class="c1"># mock_mall['segments']['greeting'] == 'hello' and mock_mall['embedders']['default'] exists</span>
+</span><span id="line-12"><span class="n">result</span> <span class="o">=</span> <span class="n">embed_text</span><span class="p">(</span><span class="n">segments</span><span class="o">=</span><span class="s2">"greeting"</span><span class="p">,</span> <span class="n">embedder</span><span class="o">=</span><span class="n">mock_mall</span><span class="p">[</span><span class="s2">"embedders"</span><span class="p">][</span><span class="s2">"default"</span><span class="p">])</span>
 </span></code></pre></div>
 </div>
-<p>Why useful: API endpoints receive simple keys (or direct values). The
-decorator transparently resolves keys to Python objects before the handler
-runs. Use cases include FastAPI endpoints, CLI wrappers, and simple webhooks.</p>
+<p>Why useful: API endpoints receive simple keys (or direct values). The decorator transparently resolves keys to Python objects before the handler runs. Use cases include FastAPI endpoints, CLI wrappers, and simple webhooks.</p>
 <p><strong>Simple input wiring (dependency-injector style)</strong></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="kn">from</span><span class="w"> </span><span class="nn">larder.wip.input_wire</span><span class="w"> </span><span class="kn">import</span> <span class="n">input_wiring</span>
 </span><span id="line-2">
-</span><span id="line-3"><span class="c1"># stores are zero-arg callables returning their data (dependency-injector style);</span>
-</span><span id="line-4"><span class="c1"># a bare `lambda: ...` class attribute would become a bound method, so use a class</span>
-</span><span id="line-5"><span class="k">class</span><span class="w"> </span><span class="nc">Store</span><span class="p">:</span>
-</span><span id="line-6">    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span> <span class="o">=</span> <span class="n">data</span>
-</span><span id="line-7">    <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span>
-</span><span id="line-8">
-</span><span id="line-9"><span class="k">class</span><span class="w"> </span><span class="nc">MockMall</span><span class="p">:</span>
-</span><span id="line-10">    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="line-11">        <span class="bp">self</span><span class="o">.</span><span class="n">store1</span> <span class="o">=</span> <span class="n">Store</span><span class="p">({</span><span class="s1">'x'</span><span class="p">:</span> <span class="mi">10</span><span class="p">})</span>
-</span><span id="line-12">        <span class="bp">self</span><span class="o">.</span><span class="n">store2</span> <span class="o">=</span> <span class="n">Store</span><span class="p">({</span><span class="s1">'y'</span><span class="p">:</span> <span class="mi">5</span><span class="p">})</span>
+</span><span id="line-3">
+</span><span id="line-4"><span class="c1"># stores are zero-arg callables returning their data (dependency-injector style);</span>
+</span><span id="line-5"><span class="c1"># a bare `lambda: ...` class attribute would become a bound method, so use a class</span>
+</span><span id="line-6"><span class="k">class</span><span class="w"> </span><span class="nc">Store</span><span class="p">:</span>
+</span><span id="line-7">    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+</span><span id="line-8">        <span class="bp">self</span><span class="o">.</span><span class="n">_data</span> <span class="o">=</span> <span class="n">data</span>
+</span><span id="line-9">
+</span><span id="line-10">    <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="line-11">        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span>
+</span><span id="line-12">
 </span><span id="line-13">
-</span><span id="line-14"><span class="k">def</span><span class="w"> </span><span class="nf">add</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
-</span><span id="line-15">    <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span> <span class="o">*</span> <span class="n">c</span>
-</span><span id="line-16">
-</span><span id="line-17"><span class="n">wrapped</span> <span class="o">=</span> <span class="n">input_wiring</span><span class="p">(</span><span class="n">add</span><span class="p">,</span> <span class="n">global_param_to_store</span><span class="o">=</span><span class="p">{</span><span class="s1">'a'</span><span class="p">:</span> <span class="s1">'store1'</span><span class="p">,</span> <span class="s1">'b'</span><span class="p">:</span> <span class="s1">'store2'</span><span class="p">},</span> <span class="n">mall</span><span class="o">=</span><span class="n">MockMall</span><span class="p">())</span>
-</span><span id="line-18"><span class="n">res</span> <span class="o">=</span> <span class="n">wrapped</span><span class="p">(</span><span class="s1">'x'</span><span class="p">,</span> <span class="s1">'y'</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>  <span class="c1"># resolves 'x' -&gt; 10, 'y' -&gt; 5</span>
-</span><span id="line-19"><span class="k">assert</span> <span class="n">res</span> <span class="o">==</span> <span class="mi">20</span>
+</span><span id="line-14"><span class="k">class</span><span class="w"> </span><span class="nc">MockMall</span><span class="p">:</span>
+</span><span id="line-15">    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="line-16">        <span class="bp">self</span><span class="o">.</span><span class="n">store1</span> <span class="o">=</span> <span class="n">Store</span><span class="p">({</span><span class="s2">"x"</span><span class="p">:</span> <span class="mi">10</span><span class="p">})</span>
+</span><span id="line-17">        <span class="bp">self</span><span class="o">.</span><span class="n">store2</span> <span class="o">=</span> <span class="n">Store</span><span class="p">({</span><span class="s2">"y"</span><span class="p">:</span> <span class="mi">5</span><span class="p">})</span>
+</span><span id="line-18">
+</span><span id="line-19">
+</span><span id="line-20"><span class="k">def</span><span class="w"> </span><span class="nf">add</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
+</span><span id="line-21">    <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span> <span class="o">*</span> <span class="n">c</span>
+</span><span id="line-22">
+</span><span id="line-23">
+</span><span id="line-24"><span class="n">wrapped</span> <span class="o">=</span> <span class="n">input_wiring</span><span class="p">(</span>
+</span><span id="line-25">    <span class="n">add</span><span class="p">,</span> <span class="n">global_param_to_store</span><span class="o">=</span><span class="p">{</span><span class="s2">"a"</span><span class="p">:</span> <span class="s2">"store1"</span><span class="p">,</span> <span class="s2">"b"</span><span class="p">:</span> <span class="s2">"store2"</span><span class="p">},</span> <span class="n">mall</span><span class="o">=</span><span class="n">MockMall</span><span class="p">()</span>
+</span><span id="line-26"><span class="p">)</span>
+</span><span id="line-27"><span class="n">res</span> <span class="o">=</span> <span class="n">wrapped</span><span class="p">(</span><span class="s2">"x"</span><span class="p">,</span> <span class="s2">"y"</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>  <span class="c1"># resolves 'x' -&gt; 10, 'y' -&gt; 5</span>
+</span><span id="line-28"><span class="k">assert</span> <span class="n">res</span> <span class="o">==</span> <span class="mi">20</span>
 </span></code></pre></div>
 </div>
-<p>Why useful: small bridge to dependency-injection style stores. Helpful when
-tests or apps already expose stores via an object with callable attributes.</p>
+<p>Why useful: small bridge to dependency-injection style stores. Helpful when tests or apps already expose stores via an object with callable attributes.</p>
 <p class="epythet-aggregates">This documentation as a single file: <a href="larder.md">larder.md</a> (Markdown, for agents).</p>
 
 </section>
 </section>
-<p class="epythet-provenance" style="font-size:.8em;opacity:.65;margin-top:2.5em;text-align:right">built 2026-11-21 18:12 UTC from <a href="https://github.com/i2mint/larder/commit/b111aa088c3fcff29501aa4bee0866bdc24e061b">b111aa0</a> (master) · larder 0.0.9 · <a href="about-this-build.html">about this build</a></p>
+<p class="epythet-provenance" style="font-size:.8em;opacity:.65;margin-top:2.5em;text-align:right">built 2026-11-23 07:43 UTC from <a href="https://github.com/i2mint/larder/commit/ad1bd217a3a4fe8a310fbfbf8925a84d54e7a7e4">ad1bd21</a> (master) · larder 0.0.10 · <a href="about-this-build.html">about this build</a></p>
 </div></div><aside class="hidden text-sm xl:block" id="right-sidebar">
 <div class="sticky top-16 -mt-10 max-h-[calc(100vh-5rem)] h-full overflow-y-auto pt-6 space-y-2"><p class="font-medium">On this page</p>
 <ul>
@@ -399,7 +394,7 @@ tests or apps already expose stores via an object with callable attributes.</p>
 </div>
 </footer>
 </div>
-<script src="_static/documentation_options.js?v=f7cdbf68"></script>
+<script src="_static/documentation_options.js?v=a83ce22a"></script>
 <script src="_static/doctools.js?v=fd6eb6e6"></script>
 <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
 <script src="_static/clipboard.min.js?v=a7894cd8"></script>
