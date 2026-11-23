@@ -2,11 +2,11 @@
 
 Connect functions to stores - fetch inputs & persist outputs.
 
-This package provides small utilities to "CRUD-ify" function inputs and outputs:
-let callers refer to any complex Python objects (functions, tables, etc.)
-by string keys stored in simple mappings (a "mall"), and to persist outputs
-into stores. The code is intentionally tiny and dependency-light; it contains
-three practical pieces you will use together or separately:
+```bash
+pip install larder
+```
+
+This package provides small utilities to "CRUD-ify" function inputs and outputs: let callers refer to any complex Python objects (functions, tables, etc.) by string keys stored in simple mappings (a "mall"), and to persist outputs into stores. The code is intentionally tiny and dependency-light; it contains three practical pieces you will use together or separately:
 
 - `crude.py` — helpers to wrap functions so they read inputs from stores and
 	persist outputs (decorators, factory wrappers, simple file-backed helpers).
@@ -16,12 +16,7 @@ three practical pieces you will use together or separately:
 
 Why this exists
 ---------------
-Many UIs and service layers cannot pass rich Python objects (functions,
-in-memory tables, model objects) directly. Instead they pass lightweight keys
-that reference objects stored in a session or filesystem. `larder` gives you
-the plumbing to map those keys back into real Python values before calling
-your functions, and to persist outputs back into stores under predictable
-keys.
+Many UIs and service layers cannot pass rich Python objects (functions, in-memory tables, model objects) directly. Instead they pass lightweight keys that reference objects stored in a session or filesystem. `larder` gives you the plumbing to map those keys back into real Python values before calling your functions, and to persist outputs back into stores under predictable keys.
 
 This makes it easy to:
 
@@ -47,8 +42,7 @@ Key concepts and patterns
 
 Short working examples (taken from the tests)
 --------------------------------------------
-These examples are simplified extracts from the package tests so you can
-quickly try the patterns that are covered by tests in `larder/tests`.
+These examples are simplified extracts from the package tests so you can quickly try the patterns that are covered by tests in `larder/tests`.
 
 1) Persisting a function's output (sync)
 
@@ -68,9 +62,7 @@ assert res == 5
 assert output_store["result"] == 5
 ```
 
-Why useful: attach simple persistence to pure functions without changing the
-function body. Use cases: caching, background result pickling, lightweight
-audit logs.
+Why useful: attach simple persistence to pure functions without changing the function body. Use cases: caching, background result pickling, lightweight audit logs.
 
 (2) DOG example (minimal)
 
@@ -108,8 +100,7 @@ assert out_store == "embeddings"
 
 API reference (main interfaces)
 --------------------------------
-Below are the most important functions and classes you will use. The list is
-concise but mentions the main options; consult the code for advanced knobs.
+Below are the most important functions and classes you will use. The list is concise but mentions the main options; consult the code for advanced knobs.
 
 ```text
 crude.store_on_output(save_name_or_func=None, *, store=None, store_multi_values=False,
@@ -197,22 +188,15 @@ Notes and next steps
 - If you want, I can add a tiny example script under `examples/` that shows a
 	small end-to-end flow (upload -> compute -> persist) using `DillFiles`.
 
-If you'd like the README changed in tone, length, or to include additional
-examples (FastAPI, background workers, or real file-backed stores), say which
-example and I will add it.
+If you'd like the README changed in tone, length, or to include additional examples (FastAPI, background workers, or real file-backed stores), say which example and I will add it.
 
-'''
-pip install larder
-'''
+''' pip install larder '''
 
 
 Work-in-Progress
 ----------------
 
-We're working on some alternatives to crude. Less complete, but simpler. 
-The idea is maybe to one day refactor `crude.py` to start with simpler functions 
-that implement the most frequent use cases, and then add layers that extend it's 
-functionality, all the way to our current `crude.py` coverage.
+We're working on some alternatives to crude. Less complete, but simpler. The idea is maybe to one day refactor `crude.py` to start with simpler functions that implement the most frequent use cases, and then add layers that extend it's functionality, all the way to our current `crude.py` coverage.
 
 - `wip/input_sourcing.py` — the `source_variables` decorator that resolves
 	function arguments from a mall (useful for APIs and FastAPI endpoints).
@@ -236,9 +220,7 @@ def embed_text(segments, embedder):
 result = embed_text(segments="greeting", embedder=mock_mall["embedders"]["default"])
 ```
 
-Why useful: API endpoints receive simple keys (or direct values). The
-decorator transparently resolves keys to Python objects before the handler
-runs. Use cases include FastAPI endpoints, CLI wrappers, and simple webhooks.
+Why useful: API endpoints receive simple keys (or direct values). The decorator transparently resolves keys to Python objects before the handler runs. Use cases include FastAPI endpoints, CLI wrappers, and simple webhooks.
 
 **Simple input wiring (dependency-injector style)**
 
@@ -273,5 +255,4 @@ res = wrapped("x", "y", 2)  # resolves 'x' -> 10, 'y' -> 5
 assert res == 20
 ```
 
-Why useful: small bridge to dependency-injection style stores. Helpful when
-tests or apps already expose stores via an object with callable attributes.
+Why useful: small bridge to dependency-injection style stores. Helpful when tests or apps already expose stores via an object with callable attributes.
