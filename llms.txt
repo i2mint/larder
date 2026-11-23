@@ -10,7 +10,7 @@
 - [larder](_autosummary/larder.html.md): larder: Connect functions to stores - fetch inputs &amp; persist outputs
 - [larder.crude](_autosummary/larder.crude.html.md): CRUDE stands for CRUD-Execution.
 - [larder.dog](_autosummary/larder.dog.html.md): DOG (Data Operation Graph)
-- [About this build](about-this-build.html.md): This documentation was built on &#42;&#42;2026-11-23 07:43 UTC&#42;&#42; from commit &lt;a href="https://github.com/i2m...
+- [About this build](about-this-build.html.md): This documentation was built on &#42;&#42;2026-11-23 09:42 UTC&#42;&#42; from commit &lt;a href="https://github.com/i2m...
 
 ## Optional
 

@@ -1,36 +1,36 @@
 {
   "schema_version": 1,
-  "built_at": "2026-11-23T07:43:55Z",
+  "built_at": "2026-11-23T09:42:43Z",
   "package": {
     "name": "larder",
-    "version": "0.0.10",
+    "version": "0.0.11",
     "display_name": "larder",
     "source": "pyproject.toml"
   },
   "git": {
     "available": true,
-    "commit": "ad1bd217a3a4fe8a310fbfbf8925a84d54e7a7e4",
-    "short_commit": "ad1bd21",
+    "commit": "bd7707a3f29876a09f4bcbfc01c292ba330a0caa",
+    "short_commit": "bd7707a",
     "branch": "master",
     "tags": [],
     "dirty": false,
     "remote_url": "https://github.com/i2mint/larder",
-    "commit_url": "https://github.com/i2mint/larder/commit/ad1bd217a3a4fe8a310fbfbf8925a84d54e7a7e4",
+    "commit_url": "https://github.com/i2mint/larder/commit/bd7707a3f29876a09f4bcbfc01c292ba330a0caa",
     "error": null
   },
   "ci": {
     "provider": "github",
     "repository": "i2mint/larder",
-    "sha": "ad1bd217a3a4fe8a310fbfbf8925a84d54e7a7e4",
+    "sha": "bd7707a3f29876a09f4bcbfc01c292ba330a0caa",
     "sha_in_history": true,
     "ref": "refs/heads/master",
     "ref_name": "master",
-    "run_id": "45133052615",
-    "run_url": "https://github.com/i2mint/larder/actions/runs/45133052615",
+    "run_id": "45149308089",
+    "run_url": "https://github.com/i2mint/larder/actions/runs/45149308089",
     "server_url": "https://github.com"
   },
   "tools": {
-    "epythet": "0.2.24",
+    "epythet": "0.2.25",
     "sphinx": "9.1.1",
     "docutils": "0.22.4",
     "python": "3.12.16"
@@ -61,15 +61,13 @@
   "pypi": {
     "checked": true,
     "latest": "0.0.11",
-    "relation": "behind",
+    "relation": "same",
     "error": null
   },
-  "reproduce": "git clone https://github.com/i2mint/larder && cd larder\ngit checkout ad1bd217a3a4fe8a310fbfbf8925a84d54e7a7e4\npip install \"epythet==0.2.24\"\nepythet quickstart . --ignore tests/ scrap/ examples/",
+  "reproduce": "git clone https://github.com/i2mint/larder && cd larder\ngit checkout bd7707a3f29876a09f4bcbfc01c292ba330a0caa\npip install \"epythet==0.2.25\"\nepythet quickstart . --ignore tests/ scrap/ examples/",
   "warnings": [],
   "alignment": {
-    "aligned": false,
-    "notes": [
-      "The documented version (0.0.10) is behind the latest release on PyPI (0.0.11): `pip install larder` gives newer code than these docs describe."
-    ]
+    "aligned": true,
+    "notes": []
   }
 }

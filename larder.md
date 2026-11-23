@@ -1,4 +1,4 @@
-> built 2026-11-23 07:43 UTC from ad1bd21 (master) · larder 0.0.10. Details: build_info.json
+> built 2026-11-23 09:42 UTC from bd7707a (master) · larder 0.0.11. Details: build_info.json
 
 # index.html.md
 
@@ -528,18 +528,16 @@ larder: Connect functions to stores - fetch inputs & persist outputs
 
 # About this build
 
-This documentation was built on **2026-11-23 07:43 UTC** from commit <a href="https://github.com/i2mint/larder/commit/ad1bd217a3a4fe8a310fbfbf8925a84d54e7a7e4"><code>ad1bd21</code></a> on branch <code>master</code>, for **larder 0.0.10** (from <code>pyproject.toml</code>).
+This documentation was built on **2026-11-23 09:42 UTC** from commit <a href="https://github.com/i2mint/larder/commit/bd7707a3f29876a09f4bcbfc01c292ba330a0caa"><code>bd7707a</code></a> on branch <code>master</code>, for **larder 0.0.11** (from <code>pyproject.toml</code>).
 
-#### WARNING
-The documentation and the package may be misaligned:
-
-- The documented version (0.0.10) is behind the latest release on PyPI (0.0.11): `pip install larder` gives newer code than these docs describe.
+#### NOTE
+Nothing suggests a mismatch: the tree was clean at the commit above, and the documented version is the one on PyPI.
 
 ## Source
 
 |                     |                                                                                                                                                      |
 |---------------------|------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Commit              | <a href="https://github.com/i2mint/larder/commit/ad1bd217a3a4fe8a310fbfbf8925a84d54e7a7e4"><code>ad1bd217a3a4fe8a310fbfbf8925a84d54e7a7e4</code></a> |
+| Commit              | <a href="https://github.com/i2mint/larder/commit/bd7707a3f29876a09f4bcbfc01c292ba330a0caa"><code>bd7707a3f29876a09f4bcbfc01c292ba330a0caa</code></a> |
 | Branch              | <code>master</code>                                                                                                                                  |
 | Tags at this commit | none                                                                                                                                                 |
 | Working tree        | clean                                                                                                                                                |
@@ -550,15 +548,15 @@ The documentation and the package may be misaligned:
 |              |                                                                                            |
 |--------------|--------------------------------------------------------------------------------------------|
 | Repository   | <code>i2mint/larder</code>                                                                 |
-| Run          | <a href="https://github.com/i2mint/larder/actions/runs/45133052615">45133052615</a>        |
+| Run          | <a href="https://github.com/i2mint/larder/actions/runs/45149308089">45149308089</a>        |
 | Ref          | <code>refs/heads/master</code>                                                             |
-| Event commit | <code>ad1bd217a3a4fe8a310fbfbf8925a84d54e7a7e4</code> (in the history of the built commit) |
+| Event commit | <code>bd7707a3f29876a09f4bcbfc01c292ba330a0caa</code> (in the history of the built commit) |
 
 ## Tools
 
 |          |         |
 |----------|---------|
-| epythet  | 0.2.24  |
+| epythet  | 0.2.25  |
 | Sphinx   | 9.1.1   |
 | docutils | 0.22.4  |
 | Python   | 3.12.16 |
@@ -577,14 +575,14 @@ The documentation and the package may be misaligned:
 
 ## Package on PyPI
 
-Latest release: <a href="https://pypi.org/project/larder/0.0.11/">0.0.11</a>, newer than the documented version (0.0.10).
+Latest release: <a href="https://pypi.org/project/larder/0.0.11/">0.0.11</a>, the same as the documented version.
 
 ## Reproduce
 
 ```bash
 git clone https://github.com/i2mint/larder && cd larder
-git checkout ad1bd217a3a4fe8a310fbfbf8925a84d54e7a7e4
-pip install "epythet==0.2.24"
+git checkout bd7707a3f29876a09f4bcbfc01c292ba330a0caa
+pip install "epythet==0.2.25"
 epythet quickstart . --ignore tests/ scrap/ examples/
 ```
 
